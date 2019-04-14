@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d2ac819109720034387083dac6a1a796
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerCheckpointPrefab: {fileID: 7816718408608021826, guid: 7a457a2134a986c4ca5b13512f03daa2,
+      type: 3}
+  - unitCheckpointPrefab: {fileID: 4095508565875598175, guid: 78098b7a176ef504ebf96086179f8da6,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
