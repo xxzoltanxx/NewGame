@@ -70,13 +70,13 @@ public class VillageScript : MonoBehaviour
     public void RemoveFromReceiving(GameObject obj)
     {
         receivingPatrols.Remove(obj);
-        director.addToReceivers(gameObject);
+        StartCoroutine("scheduleForReceiversAfterDelay");
     }
 
     public void RemoveFromSent(GameObject obj)
     {
         sentPatrols.Remove(obj);
-        director.addToDispatchers(gameObject);
+        StartCoroutine("scheduleForDispatchersAfterDelay");
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -87,5 +87,17 @@ public class VillageScript : MonoBehaviour
             RemoveFromReceiving(collision.gameObject);
             collision.gameObject.GetComponent<FovFadeable>().Dissapear();
         }
+    }
+
+    IEnumerator scheduleForDispatchersAfterDelay()
+    {
+        yield return new WaitForSeconds(2.0f + Random.Range(-0.5f, 0.5f));
+        director.addToDispatchers(gameObject);
+    }
+
+    IEnumerator scheduleForReceiversAfterDelay()
+    {
+        yield return new WaitForSeconds(2.0f + Random.Range(-0.5f, 0.5f));
+        director.addToReceivers(gameObject);
     }
 }

@@ -18,18 +18,18 @@ public class Entity : MonoBehaviour
         fovDistance = new Dictionary<GameWorld.Terrain, float>();
         fovDistance[GameWorld.Terrain.Jungle] = 2.0f;
         fovDistance[GameWorld.Terrain.Water] = 1.5f;
-        fovDistance[GameWorld.Terrain.Road] = 3.0f;
+        fovDistance[GameWorld.Terrain.Road] = 2.0f;
         fovDistance[GameWorld.Terrain.Village] = 1.0f;
         fovDistance[GameWorld.Terrain.Forest] = 1.5f;
         fovDistance[GameWorld.Terrain.Mountain] = 3.5f;
 
         terrainModifiers = new Dictionary<GameWorld.Terrain, float>();
-        terrainModifiers[GameWorld.Terrain.Jungle] = 0.8f;
-        terrainModifiers[GameWorld.Terrain.Water] = 0.2f;
-        terrainModifiers[GameWorld.Terrain.Road] = 1;
-        terrainModifiers[GameWorld.Terrain.Village] = 0.8f;
-        terrainModifiers[GameWorld.Terrain.Forest] = 0.5f;
-        terrainModifiers[GameWorld.Terrain.Mountain] = 0.3f;
+        terrainModifiers[GameWorld.Terrain.Jungle] = 0.4f;
+        terrainModifiers[GameWorld.Terrain.Water] = 0.1f;
+        terrainModifiers[GameWorld.Terrain.Road] = 0.5f;
+        terrainModifiers[GameWorld.Terrain.Village] = 0.4f;
+        terrainModifiers[GameWorld.Terrain.Forest] = 0.25f;
+        terrainModifiers[GameWorld.Terrain.Mountain] = 0.15f;
 
         pathfindingWeights = new Dictionary<GameWorld.Terrain,int>();
         pathfindingWeights[GameWorld.Terrain.Jungle] = 20;
