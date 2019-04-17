@@ -32,11 +32,11 @@ public class Entity : MonoBehaviour
         terrainModifiers[GameWorld.Terrain.Mountain] = 0.3f;
 
         pathfindingWeights = new Dictionary<GameWorld.Terrain,int>();
-        pathfindingWeights[GameWorld.Terrain.Jungle] = 10;
-        pathfindingWeights[GameWorld.Terrain.Water] = 100;
+        pathfindingWeights[GameWorld.Terrain.Jungle] = 20;
+        pathfindingWeights[GameWorld.Terrain.Water] = 400;
         pathfindingWeights[GameWorld.Terrain.Road] = 1;
-        pathfindingWeights[GameWorld.Terrain.Village] = 30;
-        pathfindingWeights[GameWorld.Terrain.Forest] = 20;
-        pathfindingWeights[GameWorld.Terrain.Mountain] = 20;
+        pathfindingWeights[GameWorld.Terrain.Village] = 80;
+        pathfindingWeights[GameWorld.Terrain.Forest] = 40;
+        pathfindingWeights[GameWorld.Terrain.Mountain] = 60;
     }
 }

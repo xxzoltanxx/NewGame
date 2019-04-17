@@ -9,7 +9,7 @@ public class Patrollable : MonoBehaviour
         Ongoing = 0,
         Finished = 1
     }
-
+    public GameObject boundVillage = null;
     private GameWorld gameWorld;
     private List<Vector2> pathNodes;
     private int currentPathNodeIndex = 0;
@@ -38,6 +38,13 @@ public class Patrollable : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void lazyInit(Vector2 checkpoint, GameObject boundVillage)
+    {
+        usingPathfinding = false;
+        currentCheckpoint = checkpoint;
+        this.boundVillage = boundVillage;
     }
 
     public PatrolStatus TickMovement(float dt)

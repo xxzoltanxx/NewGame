@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TransformedSector
 {
-    public GameObject village;
     public Rect sector;
 }
 
@@ -19,6 +18,7 @@ public class WorldMesh : MonoBehaviour
     private WorldGenerator generator;
     private WorldTextureAtlas textureAtlas;
     public GameObject villagePrefab;
+    private WorldAIDirector worldAI;
     public Vector2 totalSize;
     public GameObject linePrefab;
     public int distanceToScanVillages = 10;
@@ -27,10 +27,11 @@ public class WorldMesh : MonoBehaviour
     public ParametersDDOL parameters;
     public int roadZ = -1;
 
-    List<TransformedSector> sectors = new List<TransformedSector>();
+    public List<TransformedSector> sectors = new List<TransformedSector>();
     // Start is called before the first frame update
     void Awake()
     {
+        worldAI = GameObject.Find("GameManager").GetComponent<WorldAIDirector>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         parameters = gameManager.gameObject.GetComponent<ParametersDDOL>();
         generator = GetComponent<WorldGenerator>();
@@ -113,7 +114,6 @@ public class WorldMesh : MonoBehaviour
             Vector3 worldPos = worldPosFromNode(sector.xVillage, sector.yVillage);
             worldPos.z = villageZLevel;
             GameObject village = GameObject.Instantiate(villagePrefab, worldPos, Quaternion.identity, transform);
-            village.GetComponent<VillageScript>().setName(villages[counter].name);
             Rect transformedSector = sector.sectorRect;
             var LD = worldPosFromNode((int)transformedSector.min.x,(int) transformedSector.min.y);
             var size = new Vector2(transformedSector.size.x * tileSize.x, transformedSector.size.y * tileSize.y);
@@ -121,7 +121,7 @@ public class WorldMesh : MonoBehaviour
 
             TransformedSector completeTransformed = new TransformedSector();
             completeTransformed.sector = transformedSector;
-            completeTransformed.village = village;
+            village.GetComponent<VillageScript>().initFresh(completeTransformed, worldAI, villages[counter].name);
 
             sectors.Add(completeTransformed);
 

@@ -538,6 +538,7 @@ GameObject:
   - component: {fileID: 1101321717361547093}
   - component: {fileID: 1956022770394895446}
   - component: {fileID: 5618375808271248854}
+  - component: {fileID: 386966714142740203}
   m_Layer: 0
   m_Name: village
   m_TagString: Untagged
@@ -625,7 +626,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.35, y: 3.5}
+    oldSize: {x: 6.7, y: 7}
     newSize: {x: 8, y: 8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -679,3 +680,24 @@ MonoBehaviour:
   affinity: 0
   boundSoldiers: 0
   boundSupplyWagons: 0
+--- !u!50 &386966714142740203
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339038399825121225}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

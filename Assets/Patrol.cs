@@ -9,7 +9,6 @@ public class Patrol : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         patrollableComponent = animator.gameObject.GetComponent<Patrollable>();
-        patrollableComponent.currentCheckpoint = new Vector2(5, 5);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

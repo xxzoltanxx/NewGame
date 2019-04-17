@@ -12,11 +12,18 @@ public class FovFadeable : MonoBehaviour
     private const float fadePerSec = 0.8f;
     public SpriteRenderer FOVCircle;
     bool isInsideFOV = false;
+    bool destroyOnFadeOut = false;
     public Entity enemyEntity;
     // Start is called before the first frame update
     void Start()
     {
 
+    }
+
+    public void Dissapear()
+    {
+        fadeFlag = 2;
+        destroyOnFadeOut = true;
     }
 
     private void Awake()
@@ -37,36 +44,39 @@ public class FovFadeable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isInsideFOV && (!GetComponent<Entity>().hidden && !enemyEntity.hidden))
+        if (!destroyOnFadeOut)
         {
-            fadeFlag = 1;
-            if (enemyFOVENabled)
+            if (isInsideFOV && (!GetComponent<Entity>().hidden && !enemyEntity.hidden))
             {
-                canShowFOV = true;
+                fadeFlag = 1;
+                if (enemyFOVENabled)
+                {
+                    canShowFOV = true;
+                }
             }
-        }
-        else if (isInsideFOV && (!GetComponent<Entity>().hidden && enemyEntity.hidden))
-        {
-            fadeFlag = 1;
-            if (enemyFOVENabled)
+            else if (isInsideFOV && (!GetComponent<Entity>().hidden && enemyEntity.hidden))
             {
-                canShowFOV = true;
+                fadeFlag = 1;
+                if (enemyFOVENabled)
+                {
+                    canShowFOV = true;
+                }
             }
-        }
-        else if (isInsideFOV && (GetComponent<Entity>().hidden && enemyEntity.hidden))
-        {
-            fadeFlag = 1;
-            if (enemyFOVENabled)
+            else if (isInsideFOV && (GetComponent<Entity>().hidden && enemyEntity.hidden))
             {
-                canShowFOV = true;
+                fadeFlag = 1;
+                if (enemyFOVENabled)
+                {
+                    canShowFOV = true;
+                }
             }
-        }
-        else if (isInsideFOV)
-        {
-            fadeFlag = 2;
-            if (enemyFOVENabled)
+            else if (isInsideFOV)
             {
-                canShowFOV = false;
+                fadeFlag = 2;
+                if (enemyFOVENabled)
+                {
+                    canShowFOV = false;
+                }
             }
         }
         if (fadeFlag == 1)
@@ -88,6 +98,10 @@ public class FovFadeable : MonoBehaviour
             if (color.a <= 0)
             {
                 fadeFlag = 0;
+                if (destroyOnFadeOut)
+                {
+                    GameObject.Destroy(gameObject);
+                }
             }
             else
             {
