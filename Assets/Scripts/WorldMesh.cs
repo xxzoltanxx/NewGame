@@ -1,6 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public class TransformedSector
+{
+    public GameObject village;
+    public Rect sector;
+}
+
 [RequireComponent(typeof(WorldGenerator))]
 [RequireComponent(typeof(WorldTextureAtlas))]
 public class WorldMesh : MonoBehaviour
@@ -19,6 +26,8 @@ public class WorldMesh : MonoBehaviour
     public GameManager gameManager;
     public ParametersDDOL parameters;
     public int roadZ = -1;
+
+    List<TransformedSector> sectors = new List<TransformedSector>();
     // Start is called before the first frame update
     void Awake()
     {
@@ -99,24 +108,31 @@ public class WorldMesh : MonoBehaviour
         var villages = parameters.parameters.villages;
         villages.Shuffle();
         int counter = 0;
-        for (int i = 0; i < generator.width; ++i)
-            for (int j = 0; j < generator.height; ++j)
-            {
-                if (generator.tileMap[i,j] == WorldTextureAtlas.Tiles.Village)
-                {
-                    Vector3 worldPos = worldPosFromNode(i, j);
-                    worldPos.z = villageZLevel;
-                    GameObject village = GameObject.Instantiate(villagePrefab, worldPos, Quaternion.identity, transform);
-                    village.GetComponent<VillageScript>().setName(villages[counter].name);
-                    ++counter;
-                    if (counter >= villages.Count - 1)
-                    {
-                        counter = 0;
-                    }
+        foreach (Sector sector in generator.sectors)
+        {
+            Vector3 worldPos = worldPosFromNode(sector.xVillage, sector.yVillage);
+            worldPos.z = villageZLevel;
+            GameObject village = GameObject.Instantiate(villagePrefab, worldPos, Quaternion.identity, transform);
+            village.GetComponent<VillageScript>().setName(villages[counter].name);
+            Rect transformedSector = sector.sectorRect;
+            var LD = worldPosFromNode((int)transformedSector.min.x,(int) transformedSector.min.y);
+            var size = new Vector2(transformedSector.size.x * tileSize.x, transformedSector.size.y * tileSize.y);
+            transformedSector.Set(LD.x, LD.y, size.x, size.y);
 
-                }
+            TransformedSector completeTransformed = new TransformedSector();
+            completeTransformed.sector = transformedSector;
+            completeTransformed.village = village;
+
+            sectors.Add(completeTransformed);
+
+            ++counter;
+            if (counter >= villages.Count - 1)
+            {
+               counter = 0;
             }
-    }
+
+        }
+}
     private void AddRoads()
     {
         //Bound entity contains pathfinding weights for roads;
@@ -275,5 +291,16 @@ public class WorldMesh : MonoBehaviour
         uv.Add(uv4);
 
         return uv;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (sectors != null)
+        {
+            foreach (var sector in sectors)
+            {
+                Gizmos.DrawWireCube(sector.sector.center, sector.sector.size);
+            }
+        }
     }
 }

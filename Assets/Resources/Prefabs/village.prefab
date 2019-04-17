@@ -553,7 +553,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339038399825121225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.259, y: -5.436, z: 53.92108}
+  m_LocalPosition: {x: -8.259, y: -5.436, z: 0}
   m_LocalScale: {x: 0.26816955, y: 0.26712802, z: 1}
   m_Children:
   - {fileID: 214421601}
@@ -597,7 +597,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6066b74bf64db444584e5c83d524e2a2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3bac78567ab5dbd4b9e0cb66f911c8a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -625,7 +625,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.56, y: 4.8}
+    oldSize: {x: 3.35, y: 3.5}
     newSize: {x: 8, y: 8}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -648,7 +648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   _spriteRenderer: {fileID: 3195309384564470769}
-  _outlineSize: 5
+  _outlineSize: 0
 --- !u!114 &1956022770394895446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,6 +661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5961079852aa5e49835fa25db33267c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FOVCircle: {fileID: 0}
   outlineSize: 5
 --- !u!114 &5618375808271248854
 MonoBehaviour:
@@ -674,3 +675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7ad1ac43af66f42be3e22256eefa2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
+  affinity: 0
+  boundSoldiers: 0
+  boundSupplyWagons: 0

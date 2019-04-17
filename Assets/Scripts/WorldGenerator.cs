@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct Sector
+{
+    public Sector(int x, int y, Rect rec)
+    {
+        xVillage = x;
+        yVillage = y;
+        sectorRect = rec;
+    }
+    public int xVillage, yVillage;
+    public Rect sectorRect;
+};
+
 public class WorldGenerator : MonoBehaviour
 {
     public float forestThreshold = 0.2f;
@@ -28,7 +40,13 @@ public class WorldGenerator : MonoBehaviour
     public int waterAreaTreshold = 9;
     public int mountainAreaTreshold = 9;
     public int forestAreaTreshold = 9;
+    public int bufferArea = 3;
+
+    //Just use this outgoing
+    public List<Sector> sectors = new List<Sector>();
     public WorldTextureAtlas.Tiles[,] tileMap;
+
+
     public int villagesNum = 10;
     // Start is called before the first frame update
     private void Awake()
@@ -250,8 +268,8 @@ public class WorldGenerator : MonoBehaviour
     {
         int villageArea = (width - 1) * (height - 1) / villagesNum;
         int len = (int)Mathf.Sqrt(villageArea);
-        for (int i = 0; i < width - len; i += len)
-            for (int j = 0; j < height - len; j += len)
+        for (int i = bufferArea; i < width - len; i += len)
+            for (int j = bufferArea; j < height - len; j += len)
             {
                 int x = i;
                 int y = j;
@@ -271,6 +289,7 @@ public class WorldGenerator : MonoBehaviour
                 //Change it later
                 //Or just change the texture
                 tileMap[x, y] = WorldTextureAtlas.Tiles.Village;
+                sectors.Add(new Sector(x, y, rect));
             }
     }
 

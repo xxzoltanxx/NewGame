@@ -35,13 +35,13 @@ public class PathGrid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
                 GameWorld.Terrain terrain = world.getTerrainAtPoint(worldPoint);
-                grid[x, y] = new PathNode(terrain, worldPoint,x,y);
+                grid[x, y] = new PathNode(terrain, worldPoint, x, y);
             }
     }
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public PathNode NodeFromWorldPoint(Vector3 point)
@@ -115,7 +115,7 @@ public class PathGrid : MonoBehaviour
         HashSet<PathNode> closedSet = new HashSet<PathNode>();
 
         openSet.Add(startNode);
-        
+
         while (openSet.Count > 0)
         {
             PathNode currentNode = openSet[0];
@@ -152,7 +152,7 @@ public class PathGrid : MonoBehaviour
                 }
             }
 
-            
+
         }
         return null;
     }
@@ -195,7 +195,7 @@ public class PathGrid : MonoBehaviour
     public List<PathNode> GetNeighbours(PathNode node)
     {
         List<PathNode> neighbours = new List<PathNode>();
-        for (int x = - 1; x <= 1; ++x)
+        for (int x = -1; x <= 1; ++x)
         {
             for (int y = -1; y <= 1; ++y)
             {
@@ -211,16 +211,5 @@ public class PathGrid : MonoBehaviour
             }
         }
         return neighbours;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (grid != null)
-        {
-            foreach (PathNode node in grid)
-            {
-                Gizmos.DrawWireCube(node.worldPosition, Vector3.one * (nodeDiameter));
-            }
-        }
     }
 }

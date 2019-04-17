@@ -122,8 +122,8 @@ Material:
     - _Invertsecondarytexalpha: 1
     - _MainbarBorderWidth: 0.033
     - _Mainbarborderopacity: 1
-    - _Mainborderradialwidth: 0.0316
-    - _Mainbordertangentwidth: 0.222
+    - _Mainborderradialwidth: 0.0557
+    - _Mainbordertangentwidth: 0.285
     - _Mainscrollrotate: 1
     - _Maintexcontrast: 0.25
     - _Maintexopacity: 1
