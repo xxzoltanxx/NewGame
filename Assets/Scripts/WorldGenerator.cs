@@ -199,11 +199,105 @@ public class WorldGenerator : MonoBehaviour
                     }
                 }
             }
+        for (int i = 0; i < 5; ++i)
+        {
+            cullLandSuroundedByWater();
+            cullWaterSurroundedByGrass();
+        }
 
+        for (int i = 0; i < width; ++i)
+            for (int j = 0; j < height; ++j)
+            {
+                if (tileMap[i,j] == WorldTextureAtlas.Tiles.GrassBasic && humidityMap[i, j] > forestThreshold)
+                {
+                    tileMap[i, j] = WorldTextureAtlas.Tiles.Tree;
+                }
+            }
+
+        for (int i = 0; i < width; ++i)
+            for (int j = 0; j < height; ++j)
+            {
+                if (tileMap[i, j] == WorldTextureAtlas.Tiles.Tree)
+                {
+                    List<Vector2> tiles = new List<Vector2>();
+                    sumArea(i, j, tiles, WorldTextureAtlas.Tiles.Tree);
+                    if (tiles.Count < forestAreaTreshold)
+                    {
+                        foreach (Vector2 tile in tiles)
+                        {
+                            tileMap[(int)tile.x, (int)tile.y] = WorldTextureAtlas.Tiles.GrassBasic;
+                        }
+                    }
+                }
+            }
         AddVillages();
         UpdateWaterSprites();
     }
 
+    public void cullWaterSurroundedByGrass()
+    {
+        for (int i = 0; i < width; ++i)
+            for (int j = 0; j < height; ++j)
+            {
+                //L - 1
+                //R - 2
+                //U - 4
+                //D - 8
+                if (!isNotWater(tileMap[i, j]))
+                {
+                    int sides = 0;
+                    if (i > 0)
+                    {
+                        if (isNotWater(tileMap[i - 1, j]))
+                            ++sides;
+                    }
+                    if (i < width - 1)
+                        if (isNotWater(tileMap[i + 1, j]))
+                            ++sides;
+                    if (j > 0)
+                        if (isNotWater(tileMap[i, j - 1]))
+                            ++sides;
+                    if (j < height - 1)
+                        if (isNotWater(tileMap[i, j + 1]))
+                            ++sides;
+
+                    if (sides >= 3)
+                        tileMap[i, j] = WorldTextureAtlas.Tiles.GrassBasic;
+                }
+            }
+    }
+    public void cullLandSuroundedByWater()
+    {
+        for (int i = 0; i < width; ++i)
+            for (int j = 0; j < height; ++j)
+            {
+                //L - 1
+                //R - 2
+                //U - 4
+                //D - 8
+                if (isNotWater(tileMap[i, j]))
+                {
+                    int sides = 0;
+                    if (i > 0)
+                    {
+                        if (!isNotWater(tileMap[i - 1, j]))
+                            ++sides;
+                    }
+                    if (i < width - 1)
+                        if (!isNotWater(tileMap[i + 1, j]))
+                            ++sides;
+                    if (j > 0)
+                        if (!isNotWater(tileMap[i, j - 1]))
+                            ++sides;
+                    if (j < height - 1)
+                        if (!isNotWater(tileMap[i, j + 1]))
+                            ++sides;
+
+                    if (sides >= 3)
+                        tileMap[i, j] = WorldTextureAtlas.Tiles.WaterNone;
+                }
+            }
+    }
     public void UpdateWaterSprites()
     {
         for (int i = 0; i < width; ++i)
