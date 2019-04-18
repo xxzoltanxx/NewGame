@@ -9,6 +9,7 @@ Shader "FX/Screen Gray"
 	Properties
 	{
 		_Magnitude("Blur Amount", Range(0,1)) = 0.005
+		_DarkenMagnitude("Darken", Range(0,1)) = 0.5
 	}
 	SubShader
 	{
@@ -49,6 +50,7 @@ Shader "FX/Screen Gray"
 			};
 
 			float _Magnitude;
+			float _DarkenMagnitude;
 
 			v2f vert(appdata v)
 			{
@@ -104,7 +106,7 @@ Shader "FX/Screen Gray"
 			col /= 25; // normalize values
 			//fixed grey = float3((col.r* .393) + (col.g *.769) + (col.b * .189), (col.r * .349) + (col.g *.686) + (col.b * .168), (col.r * .272) + (col.g *.534) + (col.b * .131));
 			//fixed grey = dot(col.rgb, float3(0.3, 0.59, 0.11));
-			fixed4 grey = fixed4(col.r * 0.5f, col.g * 0.5f, col.b * 0.5f, col.a);
+			fixed4 grey = fixed4(col.r * _DarkenMagnitude, col.g * _DarkenMagnitude, col.b * _DarkenMagnitude, col.a);
 			return grey;
 			}
 			ENDCG
