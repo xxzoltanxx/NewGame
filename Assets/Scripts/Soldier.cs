@@ -9,7 +9,6 @@ public class Soldier
         MachineGunner,
         Rifleman,
         Grenadier,
-        Bear,
         Player
     }
     public Type type;

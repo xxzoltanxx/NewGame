@@ -8,9 +8,10 @@ public class VillageScript : MonoBehaviour
     private AffinityBar affinityBar = null;
     private TransformedSector sector;
     public string name = "";
+    public float patrol;
     public float affinity = 0;
     public int boundSoldiers = 0;
-    public int boundSupplyWagons = 0;
+    public bool needSupply = false;
 
     public List<GameObject> receivingPatrols = new List<GameObject>();
     public List<GameObject> sentPatrols = new List<GameObject>();
@@ -21,10 +22,11 @@ public class VillageScript : MonoBehaviour
         director = GameObject.Find("GameManager").GetComponent<WorldAIDirector>();
     }
 
-    public void initFresh(TransformedSector sector, WorldAIDirector director, string name)
+    public void initFresh(TransformedSector sector, WorldAIDirector director, string name, int soldiers)
     {
         this.director = director;
         this.sector = sector;
+        setBoundSoldiers(soldiers);
         director.addToDispatchers(gameObject);
         director.addToReceivers(gameObject);
         setName(name);
@@ -45,11 +47,6 @@ public class VillageScript : MonoBehaviour
     {
         boundSoldiers = soldiers;
         affinityBar.setBoundSoldiers(soldiers);
-    }
-    public void setBoundSupplyWagons(int wagons)
-    {
-        boundSupplyWagons = wagons;
-        affinityBar.setBoundSupplyWagons(wagons);
     }
     // Update is called once per frame
     void Update()
@@ -82,6 +79,7 @@ public class VillageScript : MonoBehaviour
     {
         if (receivingPatrols.Contains(collision.gameObject))
         {
+            needSupply = !needSupply;
             collision.gameObject.GetComponent<Patrollable>().boundVillage.GetComponent<VillageScript>().RemoveFromSent(collision.gameObject);
 
             RemoveFromReceiving(collision.gameObject);

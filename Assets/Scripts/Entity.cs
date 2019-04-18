@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Entity : MonoBehaviour
 {
-    public Soldier[] roster;
+    public List<Soldier> roster;
+    public Text soldierAmountText;
+    //Replace this later with roster
+    public int soldierAmount = 3;
     public float pace = 1;
     public float speed = 1;
     public bool hidden = false;
@@ -15,6 +19,8 @@ public class Entity : MonoBehaviour
     public float ambushValue;
     private void Awake()
     {
+        if (transform.childCount != 0)
+            soldierAmountText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
         fovDistance = new Dictionary<GameWorld.Terrain, float>();
         fovDistance[GameWorld.Terrain.Jungle] = 2.0f;
         fovDistance[GameWorld.Terrain.Water] = 1.5f;
@@ -38,5 +44,16 @@ public class Entity : MonoBehaviour
         pathfindingWeights[GameWorld.Terrain.Village] = 80;
         pathfindingWeights[GameWorld.Terrain.Forest] = 40;
         pathfindingWeights[GameWorld.Terrain.Mountain] = 60;
+    }
+
+    public void SetSoldiers(int s)
+    {
+        soldierAmount = s;
+        soldierAmountText.text = s.ToString();
+    }
+    public void LazyInit(List<Soldier> soldiers)
+    {
+        roster = soldiers;
+        soldierAmountText.text = roster.Count.ToString();
     }
 }

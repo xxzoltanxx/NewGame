@@ -26,6 +26,7 @@ public class WorldMesh : MonoBehaviour
     public GameManager gameManager;
     public ParametersDDOL parameters;
     public int roadZ = -1;
+    public int initialSoldiersPerVillage = 3;
 
     public List<TransformedSector> sectors = new List<TransformedSector>();
     // Start is called before the first frame update
@@ -43,6 +44,7 @@ public class WorldMesh : MonoBehaviour
         generator.Construct();
         textureAtlas.Construct();
         pathGrid.CreateGrid();
+        worldAI.lazyInit(Resources.Load("Prefabs/enemy") as GameObject);
     }
     private void Start()
     {
@@ -107,6 +109,7 @@ public class WorldMesh : MonoBehaviour
     private void AddVillageSprites()
     {
         var villages = parameters.parameters.villages;
+        
         villages.Shuffle();
         int counter = 0;
         foreach (Sector sector in generator.sectors)
@@ -121,7 +124,7 @@ public class WorldMesh : MonoBehaviour
 
             TransformedSector completeTransformed = new TransformedSector();
             completeTransformed.sector = transformedSector;
-            village.GetComponent<VillageScript>().initFresh(completeTransformed, worldAI, villages[counter].name);
+            village.GetComponent<VillageScript>().initFresh(completeTransformed, worldAI, villages[counter].name, initialSoldiersPerVillage);
 
             sectors.Add(completeTransformed);
 

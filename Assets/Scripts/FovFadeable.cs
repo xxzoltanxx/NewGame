@@ -89,6 +89,7 @@ public class FovFadeable : MonoBehaviour
             else
             {
                 color = new Color(color.r, color.g, color.b, Mathf.Min(1.0f, color.a + fadePerSec * Time.deltaTime));
+                BroadcastMessage("SetAlphaUnitCount", color.a);
                 GetComponent<SpriteRenderer>().color = color;
             }
         }
@@ -106,6 +107,7 @@ public class FovFadeable : MonoBehaviour
             else
             {
                 color = new Color(color.r, color.g, color.b, Mathf.Max(0.0f, color.a - fadePerSec * Time.deltaTime));
+                BroadcastMessage("SetAlphaUnitCount", color.a);
                 GetComponent<SpriteRenderer>().color = color;
             }
         }
