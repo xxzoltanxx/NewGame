@@ -245,14 +245,7 @@ public class PathGrid : MonoBehaviour
             direction.y *= -1;
         }
         PathNode node = NodeFromWorldPoint(position + direction);
-        if (node.weight != GameWorld.Terrain.Water)
-        {
-            return node.worldPosition;
-        }
-        else
-        {
-            return position;
-        }
+        return node.worldPosition;
         
     }
 }

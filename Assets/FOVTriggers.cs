@@ -31,6 +31,12 @@ public class FOVTriggers : MonoBehaviour
             transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
             transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
         }
+        else if (isEnemyInsideFOV && (transform.parent.gameObject.GetComponent<Entity>().hidden && !collision.gameObject.GetComponent<Entity>().hidden))
+        {
+            transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = collision;
+            transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
+            transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+        }
         else if (isEnemyInsideFOV)
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = null;

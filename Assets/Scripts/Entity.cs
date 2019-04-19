@@ -31,12 +31,12 @@ public class Entity : MonoBehaviour
         fovDistance[GameWorld.Terrain.Mountain] = 3.5f;
 
         terrainModifiers = new Dictionary<GameWorld.Terrain, float>();
-        terrainModifiers[GameWorld.Terrain.Jungle] = 0.4f;
-        terrainModifiers[GameWorld.Terrain.Water] = 0.1f;
-        terrainModifiers[GameWorld.Terrain.Road] = 0.5f;
+        terrainModifiers[GameWorld.Terrain.Jungle] = 0.6f;
+        terrainModifiers[GameWorld.Terrain.Water] = 0.2f;
+        terrainModifiers[GameWorld.Terrain.Road] = 0.7f;
         terrainModifiers[GameWorld.Terrain.Village] = 0.4f;
-        terrainModifiers[GameWorld.Terrain.Forest] = 0.25f;
-        terrainModifiers[GameWorld.Terrain.Mountain] = 0.15f;
+        terrainModifiers[GameWorld.Terrain.Forest] = 0.4f;
+        terrainModifiers[GameWorld.Terrain.Mountain] = 0.3f;
 
         pathfindingWeights = new Dictionary<GameWorld.Terrain,int>();
         pathfindingWeights[GameWorld.Terrain.Jungle] = 20;
