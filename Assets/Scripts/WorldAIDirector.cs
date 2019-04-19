@@ -7,12 +7,14 @@ public class WorldAIDirector : MonoBehaviour
     public GameObject patrolPrefab;
     public List<GameObject> villagesReadyToDispatch = new List<GameObject>();
     public List<GameObject> villagesReadyToReceive = new List<GameObject>();
+    public PatrolSprites patrolSprites;
 
     public float villagePatrolModifier = 0.5f;
     public float villageSupplyRunModifier = 0.33f;
     // Start is called before the first frame update
     private void Awake()
     {
+        patrolSprites = GameObject.Find("GameManager").GetComponent<PatrolSprites>();
     }
 
     public void lazyInit(GameObject patrolPrefab)
@@ -27,14 +29,16 @@ public class WorldAIDirector : MonoBehaviour
             {
                 villagesReadyToReceive.Remove(village);
                 var patrol = GameObject.Instantiate(patrolPrefab, obj.transform.position, Quaternion.identity);
-                patrol.GetComponent<Patrollable>().lazyInit(village.transform.position, obj);
+                patrol.GetComponent<Patrollable>().lazyInit(village.transform.position, obj, village);
                 if (village.GetComponent<VillageScript>().needSupply)
                 {
                     patrol.GetComponent<Entity>().SetSoldiers((int)Mathf.Ceil(villageSupplyRunModifier * obj.GetComponent<VillageScript>().boundSoldiers));
+                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.supplySprite;
                 }
                 else
                 {
                     patrol.GetComponent<Entity>().SetSoldiers((int)Mathf.Ceil(villagePatrolModifier * obj.GetComponent<VillageScript>().boundSoldiers));
+                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.patrolSprite;
                 }
                 village.GetComponent<VillageScript>().addToReceiving(patrol);
                 obj.GetComponent<VillageScript>().AddToSent(patrol);
@@ -52,14 +56,16 @@ public class WorldAIDirector : MonoBehaviour
             {
                 villagesReadyToDispatch.Remove(village);
                 var patrol = GameObject.Instantiate(patrolPrefab, village.transform.position, Quaternion.identity);
-                patrol.GetComponent<Patrollable>().lazyInit(obj.transform.position, village);
+                patrol.GetComponent<Patrollable>().lazyInit(obj.transform.position, village, obj);
                 if (obj.GetComponent<VillageScript>().needSupply)
                 {
                     patrol.GetComponent<Entity>().SetSoldiers((int)Mathf.Ceil(villageSupplyRunModifier * village.GetComponent<VillageScript>().boundSoldiers));
+                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.supplySprite;
                 }
                 else
                 {
                     patrol.GetComponent<Entity>().SetSoldiers((int)Mathf.Ceil(villagePatrolModifier * village.GetComponent<VillageScript>().boundSoldiers));
+                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.patrolSprite;
                 }
 
                 village.GetComponent<VillageScript>().AddToSent(patrol);

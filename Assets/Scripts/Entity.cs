@@ -12,6 +12,7 @@ public class Entity : MonoBehaviour
     public float pace = 1;
     public float speed = 1;
     public bool hidden = false;
+    public bool isPlayer = false;
     public Dictionary<GameWorld.Terrain, float> terrainModifiers;
     public Dictionary<GameWorld.Terrain, float> fovDistance;
     public Dictionary<GameWorld.Terrain, int> pathfindingWeights;

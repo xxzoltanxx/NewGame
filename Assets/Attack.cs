@@ -2,34 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Patrol : StateMachineBehaviour
+public class Attack : StateMachineBehaviour
 {
+    public bool visitingLastPosition = false;
+    private float timer = 0;
     private Patrollable patrollableComponent;
     private Entity entity;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         patrollableComponent = animator.gameObject.GetComponent<Patrollable>();
-        patrollableComponent.resetToDestinationVillage();
+        //patrollableComponent.resetToDestinationVillage();
         entity = animator.gameObject.GetComponent<Entity>();
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (patrollableComponent.enterTrigger && entity.soldierAmount >= patrollableComponent.enterTrigger.gameObject.GetComponent<Entity>().soldierAmount)
+        if (patrollableComponent.enterTrigger)
         {
-            animator.SetTrigger("attack");
+            patrollableComponent.reset(patrollableComponent.enterTrigger.gameObject.transform.position);
+            patrollableComponent.TickMovement(Time.deltaTime);
         }
-        else if (patrollableComponent.enterTrigger && entity.soldierAmount < patrollableComponent.enterTrigger.gameObject.GetComponent<Entity>().soldierAmount)
+        else if (patrollableComponent.didintCheckLastPosition)
         {
-            animator.SetTrigger("flee");
+            patrollableComponent.didintCheckLastPosition = false;
+            visitingLastPosition = true;
+            timer = 0;
+            patrollableComponent.reset(patrollableComponent.lastSeenEnemyPosition);
+        }
+        else if (visitingLastPosition)
+        {
+            Patrollable.PatrolStatus status =  patrollableComponent.TickMovement(Time.deltaTime);
+            timer += Time.deltaTime;
+            if (status == Patrollable.PatrolStatus.Finished || timer > 4.0f)
+            {
+                visitingLastPosition = false;
+                timer = 0;
+            }
         }
         else
         {
-            Patrollable.PatrolStatus status = patrollableComponent.TickMovement(Time.deltaTime);
+            animator.SetTrigger("patrol");
         }
     }
+
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{

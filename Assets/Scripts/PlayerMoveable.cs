@@ -21,6 +21,7 @@ public class PlayerMoveable : MonoBehaviour
         world = GameObject.Find("GameWorld").GetComponent<GameWorld>();
         grid = GameObject.Find("GameWorld").GetComponent<PathGrid>();
         boundEntity = GetComponent<Entity>();
+        GetComponent<Entity>().SetSoldiers(5);
     }
 
     // Update is called once per frame

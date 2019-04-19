@@ -398,6 +398,7 @@ MonoBehaviour:
   pace: 1
   speed: 1
   hidden: 0
+  isPlayer: 0
   ambushValue: 0
 --- !u!114 &4213750353565013477
 MonoBehaviour:
@@ -412,6 +413,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundVillage: {fileID: 0}
+  isSupply: 0
+  enterTrigger: {fileID: 0}
   currentCheckpoint: {x: 0, y: 0}
   distanceToEnablePathfinding: 5
 --- !u!114 &4213750353565013478
@@ -439,6 +442,7 @@ GameObject:
   - component: {fileID: 4213750354660533635}
   - component: {fileID: 4213750354660533634}
   - component: {fileID: 4213750354660533637}
+  - component: {fileID: 6672267206834511307}
   m_Layer: 0
   m_Name: transparentCircle
   m_TagString: enemyFOV
@@ -560,3 +564,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6672267206834511307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213750354660533662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b1528b3b6c7fe479eb3392ebf06329, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

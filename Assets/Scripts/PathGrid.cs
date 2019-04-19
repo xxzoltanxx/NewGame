@@ -212,4 +212,47 @@ public class PathGrid : MonoBehaviour
         }
         return neighbours;
     }
+
+    public Vector2 getNearestRunableTileInDirection(Vector2 position, Vector2 direction)
+    {
+        if (direction.x < 0.5f && direction.x > 0)
+            direction.x = 0;
+        else if (direction.x >= 0.5f)
+            direction.x = 1.0f;
+        else if (direction.x <= -0.5f)
+            direction.x = -1.0f;
+        else
+            direction.x = 0;
+        if (direction.y < 0.5f && direction.y > 0)
+            direction.y = 0;
+        else if (direction.y >= 0.5f)
+            direction.y = 1.0f;
+        else if (direction.y <= -0.5f)
+            direction.y = -1.0f;
+        else
+            direction.y = 0;
+
+        direction *= nodeDiameter;
+        Vector2 point = position + direction;
+        float percentX = ((float)point.x + transform.position.x + mesh.totalSize.x / 2.0f) / mesh.totalSize.x;
+        float percentY = ((float)point.y + transform.position.y + mesh.totalSize.y / 2) / mesh.totalSize.y;
+        if (percentX >= 1.0f || percentX <= 0)
+        {
+            direction.x *= -1;
+        }
+        if (percentY >= 1.0f || percentY <= 0)
+        {
+            direction.y *= -1;
+        }
+        PathNode node = NodeFromWorldPoint(position + direction);
+        if (node.weight != GameWorld.Terrain.Water)
+        {
+            return node.worldPosition;
+        }
+        else
+        {
+            return position;
+        }
+        
+    }
 }

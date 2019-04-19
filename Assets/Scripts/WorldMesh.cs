@@ -26,7 +26,7 @@ public class WorldMesh : MonoBehaviour
     public GameManager gameManager;
     public ParametersDDOL parameters;
     public int roadZ = -1;
-    public int initialSoldiersPerVillage = 3;
+    public int initialSoldiersPerVillage = 10;
 
     public List<TransformedSector> sectors = new List<TransformedSector>();
     // Start is called before the first frame update

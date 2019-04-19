@@ -10,10 +10,15 @@ public class Patrollable : MonoBehaviour
         Finished = 1
     }
     public GameObject boundVillage = null;
+    public GameObject destinationVillage = null;
     private GameWorld gameWorld;
     private List<Vector2> pathNodes;
     private int currentPathNodeIndex = 0;
     private Entity boundEntity;
+    public bool isSupply = false;
+    public Collider2D enterTrigger = null;
+    public Vector2 lastSeenEnemyPosition = new Vector2(0, 0);
+    public bool didintCheckLastPosition = true;
 
     public Vector2 currentCheckpoint = new Vector2();
 
@@ -40,11 +45,32 @@ public class Patrollable : MonoBehaviour
         
     }
 
-    public void lazyInit(Vector2 checkpoint, GameObject boundVillage)
+    public void lazyInit(Vector2 checkpoint, GameObject boundVillage, GameObject destinationVillage)
     {
         usingPathfinding = false;
         currentCheckpoint = checkpoint;
         this.boundVillage = boundVillage;
+        this.destinationVillage = destinationVillage;
+    }
+
+    public void resetToDestinationVillage()
+    {
+        reset(destinationVillage.transform.position);
+    }
+
+    public void RunAway(Vector2 enemyPosition)
+    {
+        Vector2 currentPosition = transform.position;
+        Vector2 dir = currentPosition - enemyPosition;
+        dir.Normalize();
+        var newPosition = grid.getNearestRunableTileInDirection(currentPosition, dir);
+        reset(newPosition);
+    }
+
+    public void reset(Vector2 checkpoint)
+    {
+        usingPathfinding = false;
+        currentCheckpoint = checkpoint;
     }
 
     public PatrolStatus TickMovement(float dt)
