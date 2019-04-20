@@ -58,6 +58,16 @@ public class Patrollable : MonoBehaviour
         reset(destinationVillage.transform.position);
     }
 
+    public void SetToNormal()
+    {
+        boundEntity.pace = 1.0f;
+    }
+    public void SetToScout()
+    {
+        transform.GetChild(3).gameObject.GetComponent<Animator>().SetTrigger("questionMark");
+        boundEntity.pace = 0.5f;
+    }
+
     public void RunAway(Vector2 enemyPosition)
     {
         Vector2 currentPosition = transform.position;

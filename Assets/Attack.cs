@@ -19,15 +19,18 @@ public class Attack : StateMachineBehaviour
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
         if (patrollableComponent.enterTrigger && visitingLastPosition)
         {
             visitingLastPosition = false;
+            timer = 0;
             animator.SetTrigger("spot");
         }
         if (patrollableComponent.enterTrigger)
         {
             patrollableComponent.reset(patrollableComponent.enterTrigger.gameObject.transform.position);
             patrollableComponent.TickMovement(Time.deltaTime);
+            patrollableComponent.SetToNormal();
         }
         else if (patrollableComponent.didintCheckLastPosition)
         {
@@ -35,12 +38,13 @@ public class Attack : StateMachineBehaviour
             visitingLastPosition = true;
             timer = 0;
             patrollableComponent.reset(patrollableComponent.lastSeenEnemyPosition);
+            patrollableComponent.SetToScout();
         }
         else if (visitingLastPosition)
         {
             Patrollable.PatrolStatus status =  patrollableComponent.TickMovement(Time.deltaTime);
             timer += Time.deltaTime;
-            if (status == Patrollable.PatrolStatus.Finished || timer > 2.0f)
+            if (status == Patrollable.PatrolStatus.Finished)
             {
                 visitingLastPosition = false;
                 timer = 0;

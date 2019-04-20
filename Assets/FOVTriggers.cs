@@ -6,6 +6,7 @@ public class FOVTriggers : MonoBehaviour
 {
     Collider2D collision = null;
     bool isEnemyInsideFOV = false;
+    private bool oneIterTrigger = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,31 +16,47 @@ public class FOVTriggers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(new Vector3(0, 0, 1), Time.deltaTime * 15.0f);
         if (isEnemyInsideFOV && (!transform.parent.gameObject.GetComponent<Entity>().hidden && !collision.gameObject.GetComponent<Entity>().hidden))
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = collision;
             transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
             transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+            oneIterTrigger = true;
         }
         else if (isEnemyInsideFOV && (!transform.parent.gameObject.GetComponent<Entity>().hidden && collision.gameObject.GetComponent<Entity>().hidden))
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = null;
+            if (oneIterTrigger)
+            {
+                transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
+                transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+                oneIterTrigger = false;
+            }
         }
         else if (isEnemyInsideFOV && (transform.parent.gameObject.GetComponent<Entity>().hidden && collision.gameObject.GetComponent<Entity>().hidden))
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = collision;
             transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
             transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+            oneIterTrigger = true;
         }
         else if (isEnemyInsideFOV && (transform.parent.gameObject.GetComponent<Entity>().hidden && !collision.gameObject.GetComponent<Entity>().hidden))
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = collision;
             transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
             transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+            oneIterTrigger = true;
         }
         else if (isEnemyInsideFOV)
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = null;
+            if (oneIterTrigger)
+            {
+                transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
+                transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+                oneIterTrigger = false;
+            }
         }
     }
 

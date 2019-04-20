@@ -27,7 +27,7 @@ public class Entity : MonoBehaviour
         fovDistance[GameWorld.Terrain.Water] = 1.5f;
         fovDistance[GameWorld.Terrain.Road] = 2.0f;
         fovDistance[GameWorld.Terrain.Village] = 1.0f;
-        fovDistance[GameWorld.Terrain.Forest] = 1.5f;
+        fovDistance[GameWorld.Terrain.Forest] = 0.8f;
         fovDistance[GameWorld.Terrain.Mountain] = 3.5f;
 
         terrainModifiers = new Dictionary<GameWorld.Terrain, float>();

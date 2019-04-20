@@ -8,10 +8,10 @@ public class FovFadeable : MonoBehaviour
 {
     private int fadeFlag = 0;
     private bool canShowFOV = false;
-    public bool enemyFOVENabled = false;
+    public bool enemyFOVENabled = true;
     private const float fadePerSec = 0.8f;
     public SpriteRenderer FOVCircle;
-    bool isInsideFOV = false;
+    public bool isInsideFOV = false;
     bool destroyOnFadeOut = false;
     public Entity enemyEntity;
     // Start is called before the first frame update
@@ -44,6 +44,14 @@ public class FovFadeable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (FOVCircle && canShowFOV)
+        {
+            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 1.0f);
+        }
+        else
+        {
+            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 0.0f);
+        }
         if (!destroyOnFadeOut)
         {
             if (isInsideFOV && (!GetComponent<Entity>().hidden && !enemyEntity.hidden))
@@ -135,19 +143,11 @@ public class FovFadeable : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (FOVCircle && canShowFOV)
-        {
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 1.0f);
-        }
     }
 
     private void OnMouseExit()
     {
         GetComponent<SpriteOutline>()._outlineSize = 0;
         GetComponent<SpriteOutline>().UpdateOutline(0);
-        if (FOVCircle)
-        {
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 0.0f);
-        }
     }
 }

@@ -11,7 +11,8 @@ public class SpottingState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        animator.gameObject.transform.GetChild(2).gameObject.GetComponent<ExclamationMarkScript>().SetActiveIfInsideFOV();
+        animator.gameObject.transform.GetChild(2).gameObject.GetComponent<Animator>().SetTrigger("animateBounce");
         patrollableComponent = animator.gameObject.GetComponent<Patrollable>();
         entity = animator.gameObject.GetComponent<Entity>();
     }
@@ -19,6 +20,7 @@ public class SpottingState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.gameObject.transform.GetChild(2).gameObject.GetComponent<ExclamationMarkScript>().SetActiveIfInsideFOV();
         timer += Time.deltaTime;
         if (timer > timerToWait)
         {
