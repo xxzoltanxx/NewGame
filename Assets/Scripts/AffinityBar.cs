@@ -7,7 +7,7 @@ public class AffinityBar : MonoBehaviour
 {
     public void setName(string name)
     {
-        transform.GetChild(1).gameObject.GetComponent<Text>().text = name;
+        transform.GetChild(1).GetChild(1).gameObject.GetComponent<Text>().text = name;
     }
     public void setAffinityPercentage(float percentage)
     {
@@ -16,7 +16,7 @@ public class AffinityBar : MonoBehaviour
 
     public void setBoundSoldiers(int soldiers)
     {
-        transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = soldiers.ToString();
+        transform.GetChild(1).GetChild(0).gameObject.GetComponent<Text>().text = soldiers.ToString();
     }
 
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class AffinityBar : MonoBehaviour
         Material copyMaterial = new Material(transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
         copyMaterial.renderQueue = 4300;
         transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = copyMaterial;
-        transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().material.renderQueue = 4300;
+        transform.GetChild(1).gameObject.GetComponent<Image>().material.renderQueue = 4300;
     }
 
     private void setScale(float scale, float opacity)
@@ -36,8 +36,8 @@ public class AffinityBar : MonoBehaviour
         transform.GetChild(0).localScale = new Vector3(scale, scale, scale);
         //transform.GetChild(1).GetChild(0).gameObject.GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
         transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material.SetFloat("_Globalopacity", opacity);
-        Color color = transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().color;
-        transform.GetChild(1).GetChild(0).gameObject.GetComponent<Image>().color = new Color(color.r, color.g, color.b, opacity);
+        Color color = transform.GetChild(1).gameObject.GetComponent<Image>().color;
+        transform.GetChild(1).gameObject.GetComponent<Image>().color = new Color(color.r, color.g, color.b, opacity);
     }
     // Update is called once per frame
     void Update()

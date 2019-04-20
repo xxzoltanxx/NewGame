@@ -112,6 +112,7 @@ public class WorldMesh : MonoBehaviour
         
         villages.Shuffle();
         int counter = 0;
+        bool giveSupplyRequestToVillage = true;
         foreach (Sector sector in generator.sectors)
         {
             Vector3 worldPos = worldPosFromNode(sector.xVillage, sector.yVillage);
@@ -124,7 +125,8 @@ public class WorldMesh : MonoBehaviour
 
             TransformedSector completeTransformed = new TransformedSector();
             completeTransformed.sector = transformedSector;
-            village.GetComponent<VillageScript>().initFresh(completeTransformed, worldAI, villages[counter].name, initialSoldiersPerVillage);
+            village.GetComponent<VillageScript>().initFresh(completeTransformed, worldAI, villages[counter].name, initialSoldiersPerVillage, giveSupplyRequestToVillage);
+            giveSupplyRequestToVillage = !giveSupplyRequestToVillage;
 
             sectors.Add(completeTransformed);
 

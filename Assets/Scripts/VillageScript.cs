@@ -22,13 +22,14 @@ public class VillageScript : MonoBehaviour
         director = GameObject.Find("GameManager").GetComponent<WorldAIDirector>();
     }
 
-    public void initFresh(TransformedSector sector, WorldAIDirector director, string name, int soldiers)
+    public void initFresh(TransformedSector sector, WorldAIDirector director, string name, int soldiers, bool needsSup)
     {
         this.director = director;
         this.sector = sector;
         setBoundSoldiers(soldiers);
         director.addToDispatchers(gameObject);
         director.addToReceivers(gameObject);
+        needSupply = needsSup;
         setName(name);
     }
 
