@@ -6,6 +6,8 @@ public class Attack : StateMachineBehaviour
 {
     public bool visitingLastPosition = false;
     private float timer = 0;
+    public float lastSpot = 0.0f;
+    public float spotThreshold = 1.5f;
     private Patrollable patrollableComponent;
     private Entity entity;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -19,9 +21,10 @@ public class Attack : StateMachineBehaviour
     //OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-        if (patrollableComponent.enterTrigger && visitingLastPosition)
+        lastSpot += Time.deltaTime;
+        if (patrollableComponent.enterTrigger && visitingLastPosition && lastSpot < spotThreshold)
         {
+            lastSpot = 0.0f;
             visitingLastPosition = false;
             timer = 0;
             animator.SetTrigger("spot");

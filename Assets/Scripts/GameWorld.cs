@@ -29,6 +29,56 @@ public class GameWorld : MonoBehaviour
     {
         
     }
+
+    public bool noGreenPastThis(Vector2 position, Vector2 endPosition)
+    {
+        Vector2 dir = endPosition - position;
+        dir.Normalize();
+        Vector2 step = dir * mesh.tileSize.x;
+        Vector2 iter = position;
+        while(Vector2.Distance(position, endPosition) >= Vector2.Distance(iter,position))
+        {
+            if (getTerrainAtPoint(iter) != Terrain.Forest)
+                return false;
+            iter = iter + step;
+        }
+        return true;
+    }
+
+    public bool noForestPastThis(Vector2 position, Vector2 endPosition)
+    {
+        Vector2 dir = endPosition - position;
+        dir.Normalize();
+        Vector2 step = dir * mesh.tileSize.x;
+        Vector2 iter = position;
+        while (Vector2.Distance(position, endPosition) >= Vector2.Distance(iter, position))
+        {
+            if (getTerrainAtPoint(iter) == Terrain.Forest)
+                return false;
+            iter = iter + step;
+        }
+        return true;
+    }
+
+    public bool noForestPastThisForest(Vector2 position, Vector2 endPosition)
+    {
+        Vector2 dir = endPosition - position;
+        dir.Normalize();
+        Vector2 step = dir * mesh.tileSize.x;
+        Vector2 iter = position;
+        while (Vector2.Distance(position, endPosition) >= Vector2.Distance(iter, position) && getTerrainAtPoint(iter) == Terrain.Forest)
+        {
+            iter += step;
+        }
+        while (Vector2.Distance(position, endPosition) > Vector2.Distance(iter, position))
+        {
+            if (getTerrainAtPoint(iter) == Terrain.Forest)
+                return false;
+            iter = iter + step;
+        }
+        return true;
+    }
+
     public Terrain getTerrainAtPoint(Vector2 position)
     {
         generator = GetComponent<WorldGenerator>();

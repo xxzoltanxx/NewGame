@@ -13,8 +13,10 @@ public class FovFadeable : MonoBehaviour
     public SpriteRenderer FOVCircle;
     public bool isInsideFOV = false;
     bool destroyOnFadeOut = false;
+    private GameWorld gameWorld;
     public Entity enemyEntity;
     // Start is called before the first frame update
+
     void Start()
     {
 
@@ -28,6 +30,7 @@ public class FovFadeable : MonoBehaviour
 
     private void Awake()
     {
+        gameWorld = GameObject.Find("GameWorld").GetComponent<GameWorld>();
         if (transform.childCount > 0)
         {
             if (transform.GetChild(0).tag == "enemyFOV")
@@ -54,7 +57,7 @@ public class FovFadeable : MonoBehaviour
         }
         if (!destroyOnFadeOut)
         {
-            if (isInsideFOV && (!GetComponent<Entity>().hidden && !enemyEntity.hidden))
+            if (isInsideFOV && (!GetComponent<Entity>().hidden && !enemyEntity.hidden) && gameWorld.noForestPastThis(transform.position, enemyEntity.gameObject.transform.position))
             {
                 fadeFlag = 1;
                 if (enemyFOVENabled)
@@ -62,7 +65,7 @@ public class FovFadeable : MonoBehaviour
                     canShowFOV = true;
                 }
             }
-            else if (isInsideFOV && (!GetComponent<Entity>().hidden && enemyEntity.hidden))
+            else if (isInsideFOV && (!GetComponent<Entity>().hidden && enemyEntity.hidden) && gameWorld.noForestPastThisForest(enemyEntity.gameObject.transform.position, transform.position))
             {
                 fadeFlag = 1;
                 if (enemyFOVENabled)
@@ -70,7 +73,7 @@ public class FovFadeable : MonoBehaviour
                     canShowFOV = true;
                 }
             }
-            else if (isInsideFOV && (GetComponent<Entity>().hidden && enemyEntity.hidden))
+            else if (isInsideFOV && (GetComponent<Entity>().hidden && enemyEntity.hidden) && gameWorld.noGreenPastThis(transform.position, enemyEntity.gameObject.transform.position))
             {
                 fadeFlag = 1;
                 if (enemyFOVENabled)
