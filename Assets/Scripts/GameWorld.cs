@@ -34,7 +34,7 @@ public class GameWorld : MonoBehaviour
     {
         Vector2 dir = endPosition - position;
         dir.Normalize();
-        Vector2 step = dir * mesh.tileSize.x;
+        Vector2 step = dir * mesh.tileSize.x / 2.0f;
         Vector2 iter = position;
         while(Vector2.Distance(position, endPosition) >= Vector2.Distance(iter,position))
         {
@@ -49,7 +49,7 @@ public class GameWorld : MonoBehaviour
     {
         Vector2 dir = endPosition - position;
         dir.Normalize();
-        Vector2 step = dir * mesh.tileSize.x;
+        Vector2 step = dir * mesh.tileSize.x / 2.0f;
         Vector2 iter = position;
         while (Vector2.Distance(position, endPosition) >= Vector2.Distance(iter, position))
         {
@@ -64,7 +64,7 @@ public class GameWorld : MonoBehaviour
     {
         Vector2 dir = endPosition - position;
         dir.Normalize();
-        Vector2 step = dir * mesh.tileSize.x;
+        Vector2 step = dir * mesh.tileSize.x / 2.0f;
         Vector2 iter = position;
         while (Vector2.Distance(position, endPosition) >= Vector2.Distance(iter, position) && getTerrainAtPoint(iter) == Terrain.Forest)
         {
