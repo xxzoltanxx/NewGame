@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerCheckpoint;
     public bool playerCheckpointUpdated = false;
     public GameObject unitCheckpoint;
+    public GameObject player;
 
     private Vector3 cameraFollowPosition;
     //NEEDS TO BE INITIALIZED
@@ -24,8 +25,14 @@ public class GameManager : MonoBehaviour
     public float zoom = 8.0f;
 
     public int timeMultiplier = 1;
+    private void Awake()
+    {
+    }
     private void Start()
     {
+        player = GameObject.Find("player");
+        GetComponent<WorldPlayerActionHandler>().lazyInit(player.GetComponent<Entity>());
+
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
         cameraFollow.Setup(() => cameraFollowPosition, () => zoom);
         Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
@@ -34,7 +41,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         HandleManualMovement();
-        HandleZoom();
+        HandleZoom(Time.deltaTime);
     }
     void HandleManualMovement()
     {
@@ -59,7 +66,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandleZoom()
+    private void HandleZoom(float dt)
     {
         float zoomChangeAmount = 100.0f;
         if (Input.mouseScrollDelta.y > 0)

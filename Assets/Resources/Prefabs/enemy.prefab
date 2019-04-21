@@ -396,12 +396,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5b0941cf5e4a54d936b6ca132e5c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilities: {fileID: 0}
   soldierAmountText: {fileID: 0}
   soldierAmount: 3
   pace: 1
   speed: 1
   hidden: 0
   isPlayer: 0
+  hiddenInPlainSight: 0
   ambushValue: 0
 --- !u!114 &4213750353565013477
 MonoBehaviour:
@@ -446,8 +448,8 @@ GameObject:
   - component: {fileID: 4213750354660533633}
   - component: {fileID: 4213750354660533632}
   - component: {fileID: 4213750354660533635}
-  - component: {fileID: 4213750354660533634}
   - component: {fileID: 4213750354660533637}
+  - component: {fileID: 2759887489119485626}
   - component: {fileID: 6672267206834511307}
   m_Layer: 0
   m_Name: transparentCircle
@@ -534,21 +536,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &4213750354660533634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4213750354660533662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ac819109720034387083dac6a1a796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCheckpointPrefab: {fileID: 7816718408608021826, guid: 7a457a2134a986c4ca5b13512f03daa2,
-    type: 3}
-  particlePrefab: {fileID: 0}
 --- !u!50 &4213750354660533637
 Rigidbody2D:
   serializedVersion: 4
@@ -570,6 +557,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2759887489119485626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4213750354660533662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66359fc388acb434a9365c1607bf64f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCheckpointPrefab: {fileID: 0}
+  particlePrefab: {fileID: 0}
 --- !u!114 &6672267206834511307
 MonoBehaviour:
   m_ObjectHideFlags: 0

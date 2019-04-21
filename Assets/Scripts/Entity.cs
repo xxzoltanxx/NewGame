@@ -5,21 +5,55 @@ using UnityEngine.UI;
 
 public class Entity : MonoBehaviour
 {
-    public List<Soldier> roster;
+    public Abilities abilities;
     public Text soldierAmountText;
+    public GameObject dissapearPrefab;
+    public List<Soldier> roster;
     //Replace this later with roster
     public int soldierAmount = 3;
     public float pace = 1;
     public float speed = 1;
     public bool hidden = false;
     public bool isPlayer = false;
+    public bool hiddenInPlainSight = false;
+    public bool reappear = false;
     public Dictionary<GameWorld.Terrain, float> terrainModifiers;
     public Dictionary<GameWorld.Terrain, float> fovDistance;
     public Dictionary<GameWorld.Terrain, int> pathfindingWeights;
     GameWorld.Terrain currentTile;
     public float ambushValue;
+
+    public void Dissapear()
+    {
+        reappear = false;
+        var gj = GameObject.Instantiate(dissapearPrefab, transform, false );
+        gj.transform.localPosition = new Vector3(gj.transform.localPosition.x, gj.transform.localPosition.y, -1);
+        Color color = GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, 0.05f);
+    }
+
+    public void Reappear()
+    {
+        reappear = true;
+    }
+
+    private void Update()
+    {
+        if (reappear)
+        {
+            Color color = GetComponent<SpriteRenderer>().color;
+            float a = color.a;
+            a = Mathf.Clamp(a + Time.deltaTime, 0, 1.0f);
+            GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, a);
+            if (a == 1.0f)
+            {
+                reappear = false;
+            }
+        }
+    }
     private void Awake()
     {
+        abilities = GetComponent<Abilities>();
         if (transform.childCount != 0)
             soldierAmountText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
         fovDistance = new Dictionary<GameWorld.Terrain, float>();

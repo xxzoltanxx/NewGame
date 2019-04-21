@@ -33,7 +33,7 @@ public class AffinityBar : MonoBehaviour
     {
         scale = scale / 3;
         //transform.GetChild(1).gameObject.GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
-        transform.GetChild(0).localScale = new Vector3(scale, scale, scale);
+        transform.GetChild(0).localScale = new Vector3(scale, scale, 1.0f);
         //transform.GetChild(1).GetChild(0).gameObject.GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
         transform.GetChild(0).GetChild(0).gameObject.GetComponent<MeshRenderer>().material.SetFloat("_Globalopacity", opacity);
         Color color = transform.GetChild(0).gameObject.GetComponent<Image>().color;
