@@ -32,8 +32,7 @@ public class NPCFOV : MonoBehaviour
 
     private float getFOWBoundsDistance()
     {
-        Vector2 currentPosition = transform.position;
-        GameWorld.Terrain currentTerrain = gameWorld.getTerrainAtPoint(currentPosition);
+        GameWorld.Terrain currentTerrain = gameWorld.getTerrainAtPoint(transform.position);
         float distance = boundEntity.fovDistance[currentTerrain];
         return distance;
     }

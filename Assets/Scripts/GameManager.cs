@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public float zoom = 8.0f;
 
     public int timeMultiplier = 1;
+
+    Vector3 cameraPos = new Vector3();
     private void Awake()
     {
     }
@@ -47,7 +49,9 @@ public class GameManager : MonoBehaviour
     {
         float moveAmount = 15.0f;
         float edgeSize = 10.0f;
-        Vector3 cameraPos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, 0);
+        cameraPos.x = Camera.main.transform.position.x;
+        cameraPos.y = Camera.main.transform.position.y;
+        cameraPos.z = 0;
         if (Input.mousePosition.x > Screen.width - edgeSize && cameraBoundsFuncRight(cameraPos))
         {
             cameraFollowPosition.x += moveAmount * Time.deltaTime;

@@ -13,6 +13,8 @@ public class PlayerMoveable : MonoBehaviour
     private PathGrid grid;
     private List<Vector2> pathNodes;
     private int currentPathNodeIndex = 0;
+
+    List<Vector3> linePosition = new List<Vector3>();
     // Start is called before the first frame update
     void Awake()
     {
@@ -64,7 +66,7 @@ public class PlayerMoveable : MonoBehaviour
             Vector2 sameZEnd = gameManager.playerCheckpoint.transform.position;
             Vector2 sameZCheckpoint = checkpointPosition;
             Vector2 sameZPlayer = transform.position;
-            List<Vector3> linePosition = new List<Vector3>();
+            linePosition.Clear();
             linePosition.Add(new Vector3(sameZPlayer.x, sameZPlayer.y, lineZ));
             line.GetComponent<CurveLineRenderer>().ClearVertices();
             for (int i = currentPathNodeIndex; i < pathNodes.Count; ++i)

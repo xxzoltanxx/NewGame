@@ -10,6 +10,9 @@ public class CameraFollow : MonoBehaviour
     private Func<float> GetCameraZoomFunc;
     private Func<Vector3> GetCameraFollowPositionFunc;
 
+    //Optimization variables
+    Vector3 cameraMoveDir = new Vector3();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,19 +46,19 @@ public class CameraFollow : MonoBehaviour
         Vector3 cameraFollowPosition = GetCameraFollowPositionFunc();
         cameraFollowPosition.z = transform.position.z;
 
-        Vector3 cameraMoveDir = (cameraFollowPosition - transform.position).normalized;
+        cameraMoveDir = (cameraFollowPosition - transform.position).normalized;
         float distance = Vector3.Distance(cameraFollowPosition, transform.position);
 
         if (distance > 0)
         {
-            Vector3 newCameraPosition = transform.position + cameraMoveDir * distance * cameraMoveSpeed * Time.deltaTime;
-            float distanceAfterMoving = Vector3.Distance(newCameraPosition, cameraFollowPosition);
+            cameraMoveDir = transform.position + cameraMoveDir * distance * cameraMoveSpeed * Time.deltaTime;
+            float distanceAfterMoving = Vector3.Distance(cameraMoveDir, cameraFollowPosition);
             if (distanceAfterMoving > distance)
             {
-                newCameraPosition = cameraFollowPosition;
+                cameraMoveDir = cameraFollowPosition;
             }
 
-            transform.position = newCameraPosition;
+            transform.position = cameraMoveDir;
         }
     }
 

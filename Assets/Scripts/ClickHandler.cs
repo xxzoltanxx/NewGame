@@ -7,6 +7,7 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject playerCheckpointPrefab;
     [SerializeField] private GameObject particlePrefab;
 
+    private Vector3 world = new Vector3();
     private void Awake()
     {
         playerCheckpointPrefab = Resources.Load<GameObject>("Prefabs/blackDotPrefab");
@@ -16,18 +17,24 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData data)
     {
-        if (gameManager.playerCheckpoint)
-        {
-            GameObject.Destroy(gameManager.playerCheckpoint);
-        }
-        Vector2 mousePosition = Input.mousePosition;
-        Vector3 world = Camera.main.ScreenToWorldPoint(mousePosition);
+        world = Input.mousePosition;
+        world = Camera.main.ScreenToWorldPoint(world);
         world.z = markZ - 0.01f;
         GameObject particleInstance = GameObject.Instantiate(particlePrefab, world, Quaternion.identity);
         world.z = markZ;
-        GameObject spriteInstance = GameObject.Instantiate(playerCheckpointPrefab, world, Quaternion.identity);
 
-        gameManager.playerCheckpoint = spriteInstance;
+        if (!gameManager.playerCheckpoint)
+        {
+            GameObject spriteInstance = GameObject.Instantiate(playerCheckpointPrefab, world, Quaternion.identity);
+            gameManager.playerCheckpoint = spriteInstance;
+        }
+
+        else
+        {
+            gameManager.playerCheckpoint.transform.position = world;
+        }
+
+
         gameManager.playerCheckpointUpdated = true;
     }
 }

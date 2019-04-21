@@ -11,9 +11,14 @@ public class FOV : MonoBehaviour
     private GameWorld gameWorld;
     private Entity boundEntity;
     public float perlinScale = 0.5f;
-    Vector3[] oldPerimeterPoints;
     public float speed = 0.5f;
     // Start is called before the first frame update
+
+    //Optimization
+    Vector3[] oldPerimeterPoints = new Vector3[92];
+    Vector3[] pointsFOWBOUNDS = new Vector3[92];
+    Vector3[] holder = new Vector3[92];
+    Vector3[] norms = new Vector3[92];
     private void Awake()
     {
         boundEntity = transform.parent.GetComponent<Entity>();
@@ -45,11 +50,10 @@ public class FOV : MonoBehaviour
         Vector2 startAngleDir = new Vector2(0.01f, 0);
         int j = 1;
         Vector3[] fowPointsPerimeter = getFOWBoundsPolygon();
-        oldPerimeterPoints = fowPointsPerimeter;
+        fowPointsPerimeter.CopyTo(oldPerimeterPoints, 0);
         proceduralMesh.vertices = fowPointsPerimeter;
         proceduralMesh.triangles = triangles;
         proceduralMesh.uv = uvs;
-        Vector3[] norms = new Vector3[fowPointsPerimeter.Length];
         for (int i = 0; i < fowPointsPerimeter.Length; ++i)
         {
             norms[i] = fowPointsPerimeter[i].normalized;
@@ -59,45 +63,39 @@ public class FOV : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector3[] fowPointsPerimeter = getFOWBoundsPolygon();
-        Vector3[] holder = new Vector3[fowPointsPerimeter.Length];
         for (int i = 0; i < fowPointsPerimeter.Length; ++i)
         {
             holder[i] = Vector3.Lerp(oldPerimeterPoints[i], fowPointsPerimeter[i], Time.deltaTime);
         }
         float distance = holder[1].magnitude;
         GetComponent<CircleCollider2D>().radius = distance * 2;
-        oldPerimeterPoints = new Vector3[holder.Length];
         holder.CopyTo(oldPerimeterPoints, 0);
 
         Mesh mesh = GetComponent<MeshFilter>().mesh;
 
         float timex = Time.time * speed + 0.1365143f;
 
-        for (var i = 1; i < holder.Length; i++)
+       for (int i = 1; i < holder.Length; i++)
         {
-            var vertex = holder[i];
 
-            float dist = (Mathf.PerlinNoise(timex + vertex.x, timex + vertex.y) - 0.5f) * perlinScale;
-            vertex.x += (vertex.x + mesh.normals[i].x * dist);
-            vertex.y += (vertex.y + mesh.normals[i].y * dist);
-
-            holder[i] = vertex;
+            float dist = (Mathf.PerlinNoise(timex + holder[i].x, timex + holder[i].y) - 0.5f) * perlinScale;
+            holder[i].x += (holder[i].x + norms[i].x * dist);
+            holder[i].y += (holder[i].y + norms[i].y * dist);
         }
 
-        mesh.vertices = holder;
-        mesh.RecalculateBounds();
+       mesh.vertices = holder;
+       mesh.RecalculateBounds();
 
     }
 
     private Vector3[] getFOWBoundsPolygon()
     {
-        Vector3[] points = new Vector3[92];
         Vector2 currentPosition = transform.position;
-        points[0] = transform.InverseTransformPoint(currentPosition);
-        points[0].z = 0;
+        pointsFOWBOUNDS[0] = transform.InverseTransformPoint(currentPosition);
+        pointsFOWBOUNDS[0].z = 0;
         Vector2 startAngleDir = new Vector2(0.01f, 0);
         int i = 1;
         GameWorld.Terrain currentTerrain = gameWorld.getTerrainAtPoint(currentPosition);
@@ -130,10 +128,10 @@ public class FOV : MonoBehaviour
             }*/
 
             endPosition = transform.InverseTransformPoint(endPosition);
-            points[i] = endPosition;
+            pointsFOWBOUNDS[i] = endPosition;
             ++i;
         }
-        return points;
+        return pointsFOWBOUNDS;
     }
 }
 

@@ -13,6 +13,10 @@ public class PathGrid : MonoBehaviour
     float nodeDiameter;
     int gridSizeX, gridSizeY;
     // Start is called before the first frame update
+    //Optimization
+
+    List<PathNode> openSet = new List<PathNode>();
+    HashSet<PathNode> closedSet = new HashSet<PathNode>();
 
     private void Awake()
     {
@@ -59,10 +63,8 @@ public class PathGrid : MonoBehaviour
     {
         PathNode startNode = grid[(int)start.x, (int)start.y];
         PathNode endNode = grid[(int)end.x, (int)end.y];
-
-        List<PathNode> openSet = new List<PathNode>();
-        HashSet<PathNode> closedSet = new HashSet<PathNode>();
-
+        openSet.Clear();
+        closedSet.Clear();
         openSet.Add(startNode);
 
         while (openSet.Count > 0)
@@ -110,10 +112,8 @@ public class PathGrid : MonoBehaviour
     {
         PathNode startNode = NodeFromWorldPoint(startPos);
         PathNode endNode = NodeFromWorldPoint(targetPos);
-
-        List<PathNode> openSet = new List<PathNode>();
-        HashSet<PathNode> closedSet = new HashSet<PathNode>();
-
+        openSet.Clear();
+        closedSet.Clear();
         openSet.Add(startNode);
 
         while (openSet.Count > 0)
@@ -159,27 +159,27 @@ public class PathGrid : MonoBehaviour
 
     List<Vector2> RetracePathTiles(PathNode start, PathNode end)
     {
-        List<Vector2> path = new List<Vector2>();
+        List<Vector2> retracePath = new List<Vector2>();
         PathNode currentNode = end;
         while (currentNode != start)
         {
-            path.Add(new Vector2(currentNode.gridX, currentNode.gridY));
+            retracePath.Add(new Vector2(currentNode.gridX, currentNode.gridY));
             currentNode = currentNode.parent;
         }
-        path.Reverse();
-        return path;
+        retracePath.Reverse();
+        return retracePath;
     }
     List<Vector2> RetracePath(PathNode start, PathNode end)
     {
-        List<Vector2> path = new List<Vector2>();
+        List<Vector2> retracePath = new List<Vector2>();
         PathNode currentNode = end;
         while (currentNode != start)
         {
-            path.Add(currentNode.worldPosition);
+            retracePath.Add(currentNode.worldPosition);
             currentNode = currentNode.parent;
         }
-        path.Reverse();
-        return path;
+        retracePath.Reverse();
+        return retracePath;
     }
     int getDistance(PathNode nodeA, PathNode nodeB)
     {

@@ -7,6 +7,7 @@ public class Abilities : MonoBehaviour
 {
     public List<Ability> learnedWorldAbilities = new List<Ability>();
     public List<Ability> activeAbilities = new List<Ability>();
+    List<Ability> toRemove = new List<Ability>();
     public float cooldown = 0;
     public float cooldownTime = 10.0f;
     // Start is called before the first frame update
@@ -20,7 +21,7 @@ public class Abilities : MonoBehaviour
     {
         cooldown -= Time.deltaTime;
         cooldown = Mathf.Max(cooldown - Time.deltaTime, 0);
-        List<Ability> toRemove = new List<Ability>();
+        toRemove.Clear();
         foreach (Ability ability in activeAbilities)
         {
             if (ability.Exec(Time.deltaTime))

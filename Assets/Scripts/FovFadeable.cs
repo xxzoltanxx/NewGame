@@ -15,6 +15,9 @@ public class FovFadeable : MonoBehaviour
     bool destroyOnFadeOut = false;
     private GameWorld gameWorld;
     public Entity enemyEntity;
+    //Optimization
+    Color FOVCircleColor = new Color();
+    Color mainColor = new Color();
     // Start is called before the first frame update
 
     void Start()
@@ -30,12 +33,16 @@ public class FovFadeable : MonoBehaviour
 
     private void Awake()
     {
+        mainColor = GetComponent<SpriteRenderer>().color;
         gameWorld = GameObject.Find("GameWorld").GetComponent<GameWorld>();
         if (transform.childCount > 0)
         {
             if (transform.GetChild(0).tag == "enemyFOV")
             {
                 FOVCircle = transform.GetChild(0).GetComponent<SpriteRenderer>();
+                FOVCircleColor.r = FOVCircle.color.r;
+                FOVCircleColor.g = FOVCircle.color.g;
+                FOVCircleColor.b = FOVCircle.color.b;
             }
             else
             {
@@ -47,13 +54,16 @@ public class FovFadeable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (FOVCircle && canShowFOV)
         {
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 1.0f);
+            FOVCircleColor.a = 1.0f;
+            FOVCircle.color = FOVCircleColor;
         }
         else
         {
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 0.0f);
+            FOVCircleColor.a = 0.0f;
+            FOVCircle.color = FOVCircleColor;
         }
         if (!destroyOnFadeOut)
         {
@@ -92,22 +102,20 @@ public class FovFadeable : MonoBehaviour
         }
         if (fadeFlag == 1)
         {
-            Color color = GetComponent<SpriteRenderer>().color;
-            if (color.a >= 1)
+            if (mainColor.a >= 1)
             {
                 fadeFlag = 0;
             }
             else
             {
-                color = new Color(color.r, color.g, color.b, Mathf.Min(1.0f, color.a + fadePerSec * Time.deltaTime));
-                BroadcastMessage("SetAlphaUnitCount", color.a);
-                GetComponent<SpriteRenderer>().color = color;
+                mainColor.a = Mathf.Min(1.0f, mainColor.a + fadePerSec * Time.deltaTime);
+                GetComponent<SpriteRenderer>().color = mainColor;
+                BroadcastMessage("SetAlphaUnitCount", mainColor.a);
             }
         }
         else if (fadeFlag == 2)
         {
-            Color color = GetComponent<SpriteRenderer>().color;
-            if (color.a <= 0)
+            if (mainColor.a <= 0)
             {
                 fadeFlag = 0;
                 if (destroyOnFadeOut)
@@ -117,9 +125,9 @@ public class FovFadeable : MonoBehaviour
             }
             else
             {
-                color = new Color(color.r, color.g, color.b, Mathf.Max(0.0f, color.a - fadePerSec * Time.deltaTime));
-                BroadcastMessage("SetAlphaUnitCount", color.a);
-                GetComponent<SpriteRenderer>().color = color;
+                mainColor.a = Mathf.Min(1.0f, mainColor.a + fadePerSec * Time.deltaTime);
+                BroadcastMessage("SetAlphaUnitCount", mainColor.a);
+                GetComponent<SpriteRenderer>().color = mainColor;
             }
         }
     }
