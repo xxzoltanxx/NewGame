@@ -27,6 +27,18 @@ public class WorldMesh : MonoBehaviour
     public ParametersDDOL parameters;
     public int roadZ = -1;
     public int initialSoldiersPerVillage = 10;
+    public Texture2D heightMap;
+
+    public float heightMapMountain = 1.0f;
+    public float heightMapTree = 0.5f;
+    public float heightMapGrass = 0.2f;
+
+    public Texture2D transparentMountain;
+    public Texture2D transparentTree;
+
+    private Vector3 sunDirection = new Vector3(0.0f, 0.3f, 0.8f);
+
+    bool reachedPeak = false;
 
     public List<TransformedSector> sectors = new List<TransformedSector>();
     // Start is called before the first frame update
@@ -46,11 +58,78 @@ public class WorldMesh : MonoBehaviour
         pathGrid.CreateGrid();
         worldAI.lazyInit(Resources.Load("Prefabs/enemy") as GameObject);
     }
+
+    private void setHeightMap()
+    {
+        int innerTileSize = 30;
+        int xSize = generator.width * 30;
+        int ySize = generator.height * 30;
+        heightMap = new Texture2D(xSize, ySize);
+
+        for (int i = 0; i < generator.width; ++i)
+            for (int j = 0; j < generator.height; ++j)
+            {
+                WorldTextureAtlas.Tiles tile = generator.tileMap[i, j];
+                if (tile == WorldTextureAtlas.Tiles.GrassBasic || tile == WorldTextureAtlas.Tiles.Road || tile == WorldTextureAtlas.Tiles.Village)
+                {
+                    for (int g = i * innerTileSize; g < i * innerTileSize + 30; ++g)
+                        for (int w = j * innerTileSize; w < j * innerTileSize + 30; ++w)
+                        {
+                            heightMap.SetPixel(g, w, new Color(heightMapGrass, 0, 0));
+                        }
+                }
+                else if (tile == WorldTextureAtlas.Tiles.Mountain)
+                {
+                    for (int g = i * innerTileSize; g < i * innerTileSize + innerTileSize; ++g)
+                        for (int w = j * innerTileSize; w < j * innerTileSize + innerTileSize; ++w)
+                        {
+                            int xPixel = (int) ( (g - i * innerTileSize) * (float)transparentMountain.width / innerTileSize);
+                            int yPixel = (int)((w - j * innerTileSize) * (float)transparentMountain.height / innerTileSize);
+
+                            Color pixelColor = transparentMountain.GetPixel(xPixel, yPixel);
+                            if (pixelColor.a > 0.0f)
+                                heightMap.SetPixel(g, w, new Color(heightMapMountain, 0, 0));
+                            else
+                                heightMap.SetPixel(g, w, new Color(heightMapGrass, 0, 0));
+                        }
+                }
+                else if (tile == WorldTextureAtlas.Tiles.Tree)
+                {
+                    for (int g = i * innerTileSize; g < i * innerTileSize + innerTileSize; ++g)
+                        for (int w = j * innerTileSize; w < j * innerTileSize + innerTileSize; ++w)
+                        {
+                            int xPixel = (int)((g - i * innerTileSize) * (float)transparentTree.width / innerTileSize);
+                            int yPixel = (int)((w - j * innerTileSize) * (float)transparentTree.height / innerTileSize);
+
+                            Color pixelColor = transparentTree.GetPixel(xPixel, yPixel);
+                            if (pixelColor.a > 0.0f)
+                                heightMap.SetPixel(g, w, new Color(heightMapTree, 0, 0));
+                            else
+                                heightMap.SetPixel(g, w, new Color(heightMapGrass, 0, 0));
+                        }
+                }
+                else
+                {
+                    for (int g = i * innerTileSize; g < i * innerTileSize + innerTileSize; ++g)
+                        for (int w = j * innerTileSize; w < j * innerTileSize + innerTileSize; ++w)
+                        {
+                            heightMap.SetPixel(g, w, new Color(0.0f, 0, 0));
+                        }
+                }
+            }
+        heightMap.Apply();
+    }
+
     private void Start()
     {
         //TEST CODE
         AddRoads();
         AddVillageSprites();
+
+        //HEIGHT MAP
+        setHeightMap();
+        transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_MainTex", heightMap);
+
         Mesh mesh = constructBaseMesh();
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshRenderer>().material.SetTexture("_MainTex", textureAtlas.packedTexture);
@@ -138,6 +217,33 @@ public class WorldMesh : MonoBehaviour
 
         }
 }
+
+    private void Update()
+    {
+        if (reachedPeak)
+        {
+            sunDirection.x += Time.deltaTime / 30.0f;
+            sunDirection.z = Mathf.Clamp(sunDirection.z - Time.deltaTime / 30.0f, 0.85f, 1.0f);
+            if (sunDirection.z <= 0.85f)
+            {
+                sunDirection.y = 0.3f;
+                reachedPeak = false;
+                sunDirection.x = 0.3f;
+            }
+        }
+        else
+        {
+            sunDirection.x += Time.deltaTime / 30.0f;
+            sunDirection.z = Mathf.Clamp01(sunDirection.z + Time.deltaTime / 30.0f);
+            if (sunDirection.z == 1.0f)
+            {
+                sunDirection.y = -0.3f;
+                reachedPeak = true;
+                sunDirection.x = 0.3f;
+            }
+        }
+        transform.GetChild(0).GetComponent<MeshRenderer>().material.SetVector("_SunDir", sunDirection);
+    }
     private void AddRoads()
     {
         //Bound entity contains pathfinding weights for roads;
