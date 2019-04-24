@@ -21,9 +21,12 @@ public class WorldDayNightCycle : MonoBehaviour
     public FloatParameter tint = new FloatParameter();
     public PostProcessVolume globalPostProcessing;
     public ColorGrading grading;
+    public Vignette vignete;
+    public float startVignete;
 
     public GameManager gameManager;
     public GameWorld gameWorld;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,8 +34,10 @@ public class WorldDayNightCycle : MonoBehaviour
         globalPostProcessing = GameObject.Find("PostProcessingLayer").GetComponent<PostProcessVolume>();
         gameWorld = transform.parent.gameObject.GetComponent<GameWorld>();
         globalPostProcessing.profile.TryGetSettings(out grading);
+        globalPostProcessing.profile.TryGetSettings(out vignete);
         temperatur = grading.temperature;
         tint = grading.tint;
+        startVignete = vignete.intensity.value;
     }
 
     // Update is called once per frame
@@ -51,6 +56,15 @@ public class WorldDayNightCycle : MonoBehaviour
             gameWorld.isNight = false;
         else
             gameWorld.isNight = true;
+        if (timeOfDay > 25 && timeOfDay < 30)
+        {
+            startVignete = Mathf.Clamp(startVignete + Time.deltaTime * 0.01f, 0.382f, 0.5f);
+        }
+        else if (timeOfDay > 0 && timeOfDay < 5)
+        {
+            startVignete = Mathf.Clamp(startVignete - Time.deltaTime * 0.01f, 0.382f, 0.5f);
+        }
+        vignete.intensity.Override(startVignete);
         GetComponent<MeshRenderer>().material.SetVector("_SunDir", new Vector4(xSunDirection, ySunDirection, zSunDirection));
         grading.tint = tint;
         grading.temperature = temperatur;
