@@ -34,6 +34,8 @@ public class NPCFOV : MonoBehaviour
     {
         GameWorld.Terrain currentTerrain = gameWorld.getTerrainAtPoint(transform.position);
         float distance = boundEntity.fovDistance[currentTerrain];
+        if (gameWorld.isNight)
+            distance *= boundEntity.nightFOVModifier;
         return distance;
     }
 }

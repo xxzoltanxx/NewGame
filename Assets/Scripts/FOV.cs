@@ -49,7 +49,7 @@ public class FOV : MonoBehaviour
         }
         Vector2 startAngleDir = new Vector2(0.01f, 0);
         int j = 1;
-        Vector3[] fowPointsPerimeter = getFOWBoundsPolygon();
+        Vector3[] fowPointsPerimeter = getFOWBoundsPolygon(gameWorld.isNight);
         fowPointsPerimeter.CopyTo(oldPerimeterPoints, 0);
         proceduralMesh.vertices = fowPointsPerimeter;
         proceduralMesh.triangles = triangles;
@@ -65,7 +65,7 @@ public class FOV : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3[] fowPointsPerimeter = getFOWBoundsPolygon();
+        Vector3[] fowPointsPerimeter = getFOWBoundsPolygon(gameWorld.isNight);
         for (int i = 0; i < fowPointsPerimeter.Length; ++i)
         {
             holder[i] = Vector3.Lerp(oldPerimeterPoints[i], fowPointsPerimeter[i], Time.deltaTime);
@@ -91,7 +91,7 @@ public class FOV : MonoBehaviour
 
     }
 
-    private Vector3[] getFOWBoundsPolygon()
+    private Vector3[] getFOWBoundsPolygon(bool isNight)
     {
         Vector2 currentPosition = transform.position;
         pointsFOWBOUNDS[0] = transform.InverseTransformPoint(currentPosition);
@@ -108,6 +108,8 @@ public class FOV : MonoBehaviour
             boundEntity.hidden = false;
         }
         float distance = boundEntity.fovDistance[currentTerrain];
+        if (isNight)
+            distance *= boundEntity.nightFOVModifier;
         for (float angle = 0; angle <= 360; angle += 4)
         {
             Vector2 angleDir = startAngleDir.Rotate(angle);

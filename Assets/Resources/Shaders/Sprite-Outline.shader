@@ -180,11 +180,15 @@ Shader "Sprites/Outline"
 //
         Pass
         {
+			Tags { "LightMode" = "ForwardBase" }
         	Offset 0, 0
 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+			uniform float4 _LightColor0;
+			#include "UnityCG.cginc"
             #pragma multi_compile _ PIXELSNAP_ON
             #pragma shader_feature ETC1_EXTERNAL_ALPHA
 
@@ -204,7 +208,7 @@ Shader "Sprites/Outline"
 
             fixed4 frag(v2f IN) : SV_Target
             {
-                fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
+                fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color * fixed4(UNITY_LIGHTMODEL_AMBIENT.rgb,1.0f);
                 c.rgb *= c.a;
                 return c;
             }

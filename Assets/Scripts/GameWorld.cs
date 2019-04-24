@@ -6,6 +6,7 @@ public class GameWorld : MonoBehaviour
 {
     private WorldGenerator generator;
     private WorldMesh mesh;
+    public bool isNight = false;
     public enum Terrain
     {
         Road,

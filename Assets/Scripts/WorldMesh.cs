@@ -25,7 +25,7 @@ public class WorldMesh : MonoBehaviour
     private PathGrid pathGrid;
     public GameManager gameManager;
     public ParametersDDOL parameters;
-    public int roadZ = -1;
+    public float roadZ = 0.01f;
     public int initialSoldiersPerVillage = 10;
     public Texture2D heightMap;
 
@@ -35,10 +35,6 @@ public class WorldMesh : MonoBehaviour
 
     public Texture2D transparentMountain;
     public Texture2D transparentTree;
-
-    private Vector3 sunDirection = new Vector3(0.0f, 0.3f, 0.8f);
-
-    bool reachedPeak = false;
 
     public List<TransformedSector> sectors = new List<TransformedSector>();
     // Start is called before the first frame update
@@ -220,29 +216,6 @@ public class WorldMesh : MonoBehaviour
 
     private void Update()
     {
-        if (reachedPeak)
-        {
-            sunDirection.x += Time.deltaTime / 30.0f;
-            sunDirection.z = Mathf.Clamp(sunDirection.z - Time.deltaTime / 30.0f, 0.85f, 1.0f);
-            if (sunDirection.z <= 0.85f)
-            {
-                sunDirection.y = 0.3f;
-                reachedPeak = false;
-                sunDirection.x = 0.3f;
-            }
-        }
-        else
-        {
-            sunDirection.x += Time.deltaTime / 30.0f;
-            sunDirection.z = Mathf.Clamp01(sunDirection.z + Time.deltaTime / 30.0f);
-            if (sunDirection.z == 1.0f)
-            {
-                sunDirection.y = -0.3f;
-                reachedPeak = true;
-                sunDirection.x = 0.3f;
-            }
-        }
-        transform.GetChild(0).GetComponent<MeshRenderer>().material.SetVector("_SunDir", sunDirection);
     }
     private void AddRoads()
     {

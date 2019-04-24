@@ -20,6 +20,7 @@ public class Entity : MonoBehaviour
     public Dictionary<GameWorld.Terrain, float> terrainModifiers;
     public Dictionary<GameWorld.Terrain, float> fovDistance;
     public Dictionary<GameWorld.Terrain, int> pathfindingWeights;
+    public float nightFOVModifier = 0.7f;
     GameWorld.Terrain currentTile;
     public float ambushValue;
 
