@@ -63,11 +63,11 @@ public class WorldDayNightCycle : MonoBehaviour
             gameWorld.isNight = true;
         if (timeOfDay > 27 && timeOfDay < 30)
         {
-            startVignete = Mathf.Clamp(startVignete + Time.deltaTime * 0.01f, 0.382f, 0.5f);
+            startVignete = Mathf.Clamp(startVignete + Time.deltaTime * 0.018f, 0.382f, 0.5f);
         }
         else if (timeOfDay > 0 && timeOfDay < 3)
         {
-            startVignete = Mathf.Clamp(startVignete - Time.deltaTime * 0.01f, 0.382f, 0.5f);
+            startVignete = Mathf.Clamp(startVignete - Time.deltaTime * 0.018f, 0.382f, 0.5f);
         }
         vignete.intensity.Override(startVignete);
         GetComponent<MeshRenderer>().material.SetVector("_SunDir", new Vector4(xSunDirection, ySunDirection, zSunDirection));
