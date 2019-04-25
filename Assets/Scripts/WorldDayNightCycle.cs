@@ -58,9 +58,17 @@ public class WorldDayNightCycle : MonoBehaviour
         if (timeOfDay > 60)
             timeOfDay = 0;
         if (timeOfDay < 30)
+        {
             gameWorld.isNight = false;
+            var em = transform.parent.GetChild(1).GetComponent<ParticleSystem>().emission;
+            em.rateOverTime = 0;
+        }
         else
+        {
             gameWorld.isNight = true;
+            var em = transform.parent.GetChild(1).GetComponent<ParticleSystem>().emission;
+            em.rateOverTime = ( 1 - Mathf.Abs(timeOfDay - 30 - 15) / 15.0f) * 20.0f;
+        }
         if (timeOfDay > 27 && timeOfDay < 30)
         {
             startVignete = Mathf.Clamp(startVignete + Time.deltaTime * 0.018f, 0.382f, 0.5f);

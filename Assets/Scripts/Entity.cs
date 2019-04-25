@@ -55,7 +55,7 @@ public class Entity : MonoBehaviour
     private void Awake()
     {
         abilities = GetComponent<Abilities>();
-        if (transform.childCount > 1)
+        if (gameObject.name != "GameWorld")
             soldierAmountText = transform.GetChild(1).GetChild(0).GetComponent<Text>();
         fovDistance = new Dictionary<GameWorld.Terrain, float>();
         fovDistance[GameWorld.Terrain.Jungle] = 2.0f;
