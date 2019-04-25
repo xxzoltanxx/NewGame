@@ -622,15 +622,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: -0.089971915
       value: 0.67838
-      inSlope: 0.07839952
-      outSlope: 0.07839952
+      inSlope: 0.27852777
+      outSlope: 0.27852777
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 4.0044255
-      value: 0.9993788
+      time: 1.0679233
+      value: 1.000886
       inSlope: -0.0017712499
       outSlope: -0.0017712499
       tangentMode: 0
@@ -638,7 +638,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.048543695
     - serializedVersion: 3
-      time: 24.66354
+      time: 29.928066
       value: 0.99848163
       inSlope: -0.0003420337
       outSlope: -0.0003420337
@@ -647,8 +647,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 30.032398
-      value: 0.8667439
+      time: 32.863087
+      value: 0.8735646
       inSlope: -0.031757306
       outSlope: -0.031757306
       tangentMode: 0
@@ -658,8 +658,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 34.96288
       value: 0.6803266
-      inSlope: -0.03780916
-      outSlope: -0.03780916
+      inSlope: -0.0920272
+      outSlope: -0.0920272
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -673,15 +673,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: -0.112010434
       value: 0.6720305
-      inSlope: 0.03235311
-      outSlope: 0.03235311
+      inSlope: 0.063860714
+      outSlope: 0.063860714
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 9.935343
-      value: 0.9970936
+      time: 4.990305
+      value: 0.997868
       inSlope: -0.00047605735
       outSlope: -0.00047605735
       tangentMode: 0
@@ -689,8 +689,8 @@ MonoBehaviour:
       inWeight: 0.11469375
       outWeight: 0.024053518
     - serializedVersion: 3
-      time: 24.204796
-      value: 1.0001332
+      time: 24.930626
+      value: 1.0009037
       inSlope: 0.00067083223
       outSlope: 0.00067083223
       tangentMode: 0
@@ -700,8 +700,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 29.943783
       value: 0.6782178
-      inSlope: -0.05609271
-      outSlope: -0.05609271
+      inSlope: -0.0643678
+      outSlope: -0.0643678
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -715,15 +715,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: -0.0410289
       value: 0.73766714
-      inSlope: 0.026060604
-      outSlope: 0.026060604
+      inSlope: 0.051445194
+      outSlope: 0.051445194
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 9.950967
-      value: 0.9980646
+      time: 5.056878
+      value: 0.99992996
       inSlope: -0.000047381905
       outSlope: -0.000047381905
       tangentMode: 0
@@ -731,8 +731,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.07523677
     - serializedVersion: 3
-      time: 24.949514
-      value: 0.9949916
+      time: 24.972057
+      value: 0.99686843
       inSlope: -0.002063693
       outSlope: -0.002063693
       tangentMode: 0
@@ -760,6 +760,8 @@ MonoBehaviour:
     value: 0
   globalPostProcessing: {fileID: 0}
   grading: {fileID: 0}
+  vignete: {fileID: 0}
+  startVignete: 0
   gameManager: {fileID: 0}
   gameWorld: {fileID: 0}
 --- !u!1 &232173254
@@ -1067,92 +1069,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &464226124
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprite-Outline
-  m_Shader: {fileID: 4800000, guid: 898dd3c7167d25448b1e13aa452e938e, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _EnableExternalAlpha: 0
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Outline: 0
-    - _OutlineSize: 0
-    - _Parallax: 0.02
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &654618901
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,7 +1869,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 464226124}
+  - {fileID: 2038880137}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2207,6 +2123,92 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 133182673}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &2038880137
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprite-Outline
+  m_Shader: {fileID: 4800000, guid: 898dd3c7167d25448b1e13aa452e938e, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _EnableExternalAlpha: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Outline: 0
+    - _OutlineSize: 0
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2109885831
 GameObject:
   m_ObjectHideFlags: 0

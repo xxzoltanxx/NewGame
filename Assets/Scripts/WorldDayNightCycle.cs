@@ -38,6 +38,11 @@ public class WorldDayNightCycle : MonoBehaviour
         temperatur = grading.temperature;
         tint = grading.tint;
         startVignete = vignete.intensity.value;
+
+        if (timeOfDay > 0 && timeOfDay < 3)
+        {
+            startVignete = timeOfDay / 3.0f * 0.119f + 0.382f;
+        }
     }
 
     // Update is called once per frame
@@ -56,11 +61,11 @@ public class WorldDayNightCycle : MonoBehaviour
             gameWorld.isNight = false;
         else
             gameWorld.isNight = true;
-        if (timeOfDay > 25 && timeOfDay < 30)
+        if (timeOfDay > 27 && timeOfDay < 30)
         {
             startVignete = Mathf.Clamp(startVignete + Time.deltaTime * 0.01f, 0.382f, 0.5f);
         }
-        else if (timeOfDay > 0 && timeOfDay < 5)
+        else if (timeOfDay > 0 && timeOfDay < 3)
         {
             startVignete = Mathf.Clamp(startVignete - Time.deltaTime * 0.01f, 0.382f, 0.5f);
         }
