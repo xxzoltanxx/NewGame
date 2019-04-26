@@ -9,7 +9,9 @@ Shader "FX/Screen Gray"
 	Properties
 	{
 		_Magnitude("Blur Amount", Range(0,1)) = 0.005
+		_Position("Position", Vector ) = (0,0,0,0)
 		_DarkenMagnitude("Darken", Range(0,1)) = 0.5
+		_Distance("Distance", Float) = 0.5
 	}
 	SubShader
 	{
@@ -47,6 +49,7 @@ Shader "FX/Screen Gray"
 			{
 				float4 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
+				float4 vertexUnmodified : TEXCOORD1;
 			};
 
 			float _Magnitude;
@@ -57,51 +60,55 @@ Shader "FX/Screen Gray"
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = ComputeGrabScreenPos(o.vertex);
+				o.vertexUnmodified = mul(unity_ObjectToWorld, v.vertex);
 				return o;
 			}
 
 			sampler2D _BackgroundTexture;
+			float4 _Position;
+			float _Distance;
 
 			fixed4 frag(v2f i) : SV_Target
 			{
+			float mag = clamp(distance(_Position, i.vertexUnmodified) / _Distance, 0, 1.0f) * _Magnitude;
 			float4 bis = i.uv;
 			float4 uv = UNITY_PROJ_COORD(bis);
 			float4 col = tex2Dproj(_BackgroundTexture, UNITY_PROJ_COORD(bis)); // center pixel color.
 
 			// top row.
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y - (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y - (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y - (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y - (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y - (_Magnitude * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y - (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y - (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y - (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y - (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y - (mag * 2), uv.z, uv.w));
 
 			// 2nd row.
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y - (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y - (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y - (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y - (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y - (_Magnitude * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y - (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y - (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y - (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y - (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y - (mag * 1), uv.z, uv.w));
 
 			// middle row (note that we occluded middle pixel because it's handled above.
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y, uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y, uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y, uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y, uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y, uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y, uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y, uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y, uv.z, uv.w));
 
 
 			// 4th row.
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y + (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y + (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y + (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y + (_Magnitude * 1), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y + (_Magnitude * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y + (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y + (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y + (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y + (mag * 1), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y + (mag * 1), uv.z, uv.w));
 
 			// bottom row.
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y + (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y + (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y + (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 1), uv.y + (_Magnitude * 2), uv.z, uv.w));
-			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (_Magnitude * 2), uv.y + (_Magnitude * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y + (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y + (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x                   , uv.y + (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 1), uv.y + (mag * 2), uv.z, uv.w));
+			col += tex2Dproj(_BackgroundTexture, float4(uv.x + (mag * 2), uv.y + (mag * 2), uv.z, uv.w));
 
 			col /= 25; // normalize values
 			//fixed grey = float3((col.r* .393) + (col.g *.769) + (col.b * .189), (col.r * .349) + (col.g *.686) + (col.b * .168), (col.r * .272) + (col.g *.534) + (col.b * .131));

@@ -65,6 +65,7 @@ Material:
     - _Cutoff: 0.5
     - _DarkenMagnitude: 0.4
     - _DetailNormalMapScale: 1
+    - _Distance: 0.5
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
@@ -76,7 +77,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LightingEnabled: 1
-    - _Magnitude: 0.001
+    - _Magnitude: 0.002
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -93,4 +94,5 @@ Material:
     - _CameraFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Position: {r: 5, g: 0, b: 0, a: 0}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}

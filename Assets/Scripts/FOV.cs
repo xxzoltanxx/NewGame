@@ -12,6 +12,7 @@ public class FOV : MonoBehaviour
     private Entity boundEntity;
     public float perlinScale = 0.5f;
     public float speed = 0.5f;
+    public Material worldEffectMaterial;
     // Start is called before the first frame update
 
     //Optimization
@@ -23,7 +24,7 @@ public class FOV : MonoBehaviour
     {
         boundEntity = transform.parent.GetComponent<Entity>();
         gameWorld = GameObject.Find("GameWorld").GetComponent<GameWorld>();
-
+        worldEffectMaterial = GameObject.Find("Quad").GetComponent<MeshRenderer>().material;
     }
     void Start()
     {
@@ -88,7 +89,8 @@ public class FOV : MonoBehaviour
 
        mesh.vertices = holder;
        mesh.RecalculateBounds();
-
+        worldEffectMaterial.SetFloat("_Distance", distance * 8.0f);
+       worldEffectMaterial.SetVector("_Position", transform.position);
     }
 
     private Vector3[] getFOWBoundsPolygon(bool isNight)
