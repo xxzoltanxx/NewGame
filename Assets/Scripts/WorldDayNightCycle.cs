@@ -26,6 +26,7 @@ public class WorldDayNightCycle : MonoBehaviour
 
     public GameManager gameManager;
     public GameWorld gameWorld;
+    public CloudController cloudController;
 
     // Start is called before the first frame update
     void Awake()
@@ -38,6 +39,7 @@ public class WorldDayNightCycle : MonoBehaviour
         temperatur = grading.temperature;
         tint = grading.tint;
         startVignete = vignete.intensity.value;
+        cloudController = GameObject.Find("cloudMask").GetComponent<CloudController>();
 
         if (timeOfDay > 0 && timeOfDay < 3)
         {
@@ -78,6 +80,7 @@ public class WorldDayNightCycle : MonoBehaviour
             startVignete = Mathf.Clamp(startVignete - Time.deltaTime * 0.018f, 0.382f, 0.5f);
         }
         vignete.intensity.Override(startVignete);
+        cloudController.SetSunDir(new Vector3(xSunDirection, ySunDirection, zSunDirection));
         GetComponent<MeshRenderer>().material.SetVector("_SunDir", new Vector4(xSunDirection, ySunDirection, zSunDirection));
         grading.tint = tint;
         grading.temperature = temperatur;
