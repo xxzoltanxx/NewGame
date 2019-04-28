@@ -21,5 +21,7 @@ public class UnitCountFunctions : MonoBehaviour
     {
         Color color = transform.GetChild(0).gameObject.GetComponent<Text>().color;
         transform.GetChild(0).gameObject.GetComponent<Text>().color = new Color(color.r, color.g, color.b, alpha);
+        Color color2 = transform.GetChild(1).gameObject.GetComponent<WavySprite>().tint;
+        transform.GetChild(1).gameObject.GetComponent<WavySprite>().tint= new Color(color2.r, color2.g, color2.b, alpha);
     }
 }

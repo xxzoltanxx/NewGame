@@ -17,6 +17,10 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData data)
     {
+        if (!gameManager.canCheckpoint)
+        {
+            return;
+        }
         world = Input.mousePosition;
         world = Camera.main.ScreenToWorldPoint(world);
         world.z = markZ - 0.01f;

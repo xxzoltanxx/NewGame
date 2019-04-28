@@ -36,6 +36,19 @@ public class SpottingState : StateMachineBehaviour
             else
             {
                 animator.SetTrigger("flee");
+                if (patrollableComponent.fleeCount == 2)
+                {
+                    patrollableComponent.isEscaping = true;
+                    patrollableComponent.fleeCount = 0;
+                    if (!patrollableComponent.isEscaping)
+                        patrollableComponent.destinationVillage.GetComponent<VillageScript>().RemoveFromReceiving(animator.gameObject);
+                    else
+                        patrollableComponent.destinationVillage.GetComponent<VillageScript>().receivingPatrols.Remove(patrollableComponent.gameObject);
+                    patrollableComponent.boundVillage.GetComponent<VillageScript>().addToReceiving(animator.gameObject);
+                    var temp = patrollableComponent.boundVillage;
+                    patrollableComponent.boundVillage = patrollableComponent.destinationVillage;
+                    patrollableComponent.destinationVillage = temp;
+                }
             }
         }
     }

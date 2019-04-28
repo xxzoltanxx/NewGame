@@ -12,6 +12,7 @@ public class Flee : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         patrollableComponent = animator.gameObject.GetComponent<Patrollable>();
+        patrollableComponent.fleeCount += 1;
         //patrollableComponent.resetToDestinationVillage();
         entity = animator.gameObject.GetComponent<Entity>();
     }

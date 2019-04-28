@@ -4,6 +4,13 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    public Sprite playerFlag;
+    public Sprite enemyFlag;
+
+    public NotificationHandler notificationHandler = null;
+    public BattleState currentBattleState = null;
+    public bool cameraLocked = false;
+    public float cameraZoomMin = 7.0f;
     public CameraFollow cameraFollow;
     public Texture2D cursorTexture;
     public CursorMode cursorMode = CursorMode.Auto;
@@ -22,6 +29,7 @@ public class GameManager : MonoBehaviour
     public Func<Vector3, bool> cameraBoundsFuncDown;
     public Func<float> maxWidth;
 
+    public bool canCheckpoint = true;
     public float zoom = 8.0f;
 
     public int timeMultiplier = 1;
@@ -29,6 +37,23 @@ public class GameManager : MonoBehaviour
     Vector3 cameraPos = new Vector3();
     private void Awake()
     {
+        notificationHandler = GameObject.Find("NotificationDock").GetComponent<NotificationHandler>();
+    }
+
+    public void postBattleActions()
+    {
+        cameraLocked = false;
+        timeMultiplier = 1;
+        canCheckpoint = true;
+        Vector3 pos = currentBattleState.winningEntity.gameObject.transform.position;
+        if (currentBattleState.winningEntity.isPlayer)
+        {
+            notificationHandler.AddBattleWonNotification(playerFlag);
+        }
+        else
+        {
+            notificationHandler.AddBattleLostNotification(enemyFlag);
+        }
     }
     private void Start()
     {
@@ -40,10 +65,26 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
     }
 
+    public void zoomToPosition(Vector2 position)
+    {
+        cameraFollowPosition = position;
+        zoom = cameraZoomMin;
+    }
+
+    public void openMenuLockActions(Vector2 position)
+    {
+        zoomToPosition(position);
+        cameraLocked = true;
+        timeMultiplier = 0;
+        canCheckpoint = false;
+    }
     private void Update()
     {
-        HandleManualMovement();
-        HandleZoom(Time.deltaTime);
+        if (!cameraLocked)
+        {
+            HandleManualMovement();
+            HandleZoom(Time.deltaTime);
+        }
     }
     void HandleManualMovement()
     {
@@ -83,6 +124,38 @@ public class GameManager : MonoBehaviour
             zoom += zoomChangeAmount * Time.deltaTime;
         }
       float maxW = maxWidth();
-      zoom = Mathf.Clamp(zoom, 7.0f, maxWidth());
+      zoom = Mathf.Clamp(zoom, cameraZoomMin, maxWidth());
+    }
+}
+
+public class BattleState
+{
+    public Entity playerEntity;
+    public Entity enemyEntity;
+    public Entity winningEntity;
+    public GameManager gamemanager;
+    public BattleState(Entity playerEntity, Entity enemyEntity, GameManager manager)
+    {
+        this.playerEntity = playerEntity;
+        this.enemyEntity = enemyEntity;
+        gamemanager = manager;
+    }
+    public void ResolveBattle()
+    {
+        float winChance = (float)playerEntity.soldierAmount / (playerEntity.soldierAmount + enemyEntity.soldierAmount);
+        float roll = UnityEngine.Random.Range(0, 1.0f);
+        if (roll >= winChance)
+        {
+            enemyEntity.SetSoldiers(enemyEntity.soldierAmount - 2);
+            enemyEntity.gameObject.GetComponent<Animator>().SetTrigger("flee");
+            winningEntity = playerEntity;
+        }
+        else
+        {
+            playerEntity.SetSoldiers(playerEntity.soldierAmount - 2);
+            enemyEntity.gameObject.GetComponent<Patrollable>().SetToAfterWin();
+            winningEntity = enemyEntity;
+        }
+        gamemanager.postBattleActions();
     }
 }

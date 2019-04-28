@@ -9,6 +9,8 @@ public class Patrollable : MonoBehaviour
         Ongoing = 0,
         Finished = 1
     }
+    public bool isEscaping = false;
+    public int fleeCount = 0;
     public GameObject boundVillage = null;
     public GameObject destinationVillage = null;
     private GameWorld gameWorld;
@@ -66,6 +68,11 @@ public class Patrollable : MonoBehaviour
     {
         transform.GetChild(3).gameObject.GetComponent<Animator>().SetTrigger("questionMark");
         boundEntity.pace = 0.5f;
+    }
+
+    public void SetToAfterWin()
+    {
+        GetComponent<Animator>().SetTrigger("win");
     }
 
     public void RunAway(Vector2 enemyPosition)

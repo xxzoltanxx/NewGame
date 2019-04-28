@@ -33,7 +33,7 @@ public class WorldAIDirector : MonoBehaviour
                 if (village.GetComponent<VillageScript>().needSupply)
                 {
                     patrol.GetComponent<Entity>().SetSoldiers((int)Mathf.Ceil(villageSupplyRunModifier * obj.GetComponent<VillageScript>().boundSoldiers));
-                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.supplySprite;
+                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.patrolSprite;
                 }
                 else
                 {
@@ -60,7 +60,7 @@ public class WorldAIDirector : MonoBehaviour
                 if (obj.GetComponent<VillageScript>().needSupply)
                 {
                     patrol.GetComponent<Entity>().SetSoldiers((int)Mathf.Ceil(villageSupplyRunModifier * village.GetComponent<VillageScript>().boundSoldiers));
-                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.supplySprite;
+                    patrol.GetComponent<SpriteRenderer>().sprite = patrolSprites.patrolSprite;
                 }
                 else
                 {

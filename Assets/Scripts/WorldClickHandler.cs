@@ -18,6 +18,10 @@ public class WorldClickHandler : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData data)
     {
+        if (!gameManager.canCheckpoint)
+        {
+            return;
+        }
         Vector2 mousePosition = Input.mousePosition;
         Vector3 world = Camera.main.ScreenToWorldPoint(mousePosition);
         if (data.button == PointerEventData.InputButton.Left)

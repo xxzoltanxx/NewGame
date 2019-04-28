@@ -31,6 +31,7 @@ public class Attack : StateMachineBehaviour
         }
         if (patrollableComponent.enterTrigger)
         {
+            patrollableComponent.didintCheckLastPosition = true;
             patrollableComponent.reset(patrollableComponent.enterTrigger.gameObject.transform.position);
             patrollableComponent.TickMovement(Time.deltaTime);
             patrollableComponent.SetToNormal();

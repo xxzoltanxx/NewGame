@@ -111,6 +111,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6390576431613449236}
+  - {fileID: 4370454867617129660}
   m_Father: {fileID: 4213750353565013473}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -269,9 +270,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.01037693, y: 0}
+  m_Offset: {x: 0.0010428578, y: 0}
   serializedVersion: 2
-  m_Radius: 0.30388153
+  m_Radius: 0.13826196
 --- !u!212 &4213750353565013475
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -317,7 +318,7 @@ SpriteRenderer:
   m_Size: {x: 1.03, y: 1.17}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4213750353565013502
@@ -398,12 +399,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilities: {fileID: 0}
   soldierAmountText: {fileID: 0}
+  dissapearPrefab: {fileID: 0}
   soldierAmount: 3
   pace: 1
   speed: 1
   hidden: 0
   isPlayer: 0
   hiddenInPlainSight: 0
+  reappear: 0
+  nightFOVModifier: 0.7
   ambushValue: 0
 --- !u!114 &4213750353565013477
 MonoBehaviour:
@@ -417,6 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986347526703d5e479bec01cb946f4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEscaping: 0
+  fleeCount: 0
   boundVillage: {fileID: 0}
   destinationVillage: {fileID: 0}
   isSupply: 0
@@ -695,6 +701,108 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d552f575dd70c304e8621cb6fead78cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7229140137859579435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4370454867617129660}
+  - component: {fileID: 4027318146600578930}
+  - component: {fileID: 6795615869344909029}
+  - component: {fileID: 5350546703663965413}
+  m_Layer: 0
+  m_Name: Flag
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4370454867617129660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229140137859579435}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.147, y: 0.997, z: 0}
+  m_LocalScale: {x: 0.57370377, y: 0.5648107, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6042690002610155177}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &4027318146600578930
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229140137859579435}
+  m_Mesh: {fileID: 0}
+--- !u!23 &6795615869344909029
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229140137859579435}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!114 &5350546703663965413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7229140137859579435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ec30b6f2e964a4d99aef3a100e2257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mr: {fileID: 6795615869344909029}
+  texture: {fileID: 2800000, guid: 9ae0130ac480a84449de87ead22bf314, type: 3}
+  tint: {r: 1, g: 1, b: 1, a: 0}
+  divisionsX: 10
+  divisionsY: 10
+  waveDirection: 1
+  staticSide: 3
+  waveFrequency: 10
+  waveForce: 0.129
+  waveSpeed: 1.7
+  sortingLayer: 0
+  orderInLayer: 0
 --- !u!1 &8731674031710030860
 GameObject:
   m_ObjectHideFlags: 0

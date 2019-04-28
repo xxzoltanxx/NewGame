@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Entity))]
 public class PlayerMoveable : MonoBehaviour
 {
+    public BattleEntryScript battleEntryScreen;
     public const float distanceToEnablePathfinding = 3.0f;
     public const float lineZ = -2.0f;
     public GameObject line;
@@ -13,11 +14,13 @@ public class PlayerMoveable : MonoBehaviour
     private PathGrid grid;
     private List<Vector2> pathNodes;
     private int currentPathNodeIndex = 0;
+    public bool canCheckpoint = true;
 
     List<Vector3> linePosition = new List<Vector3>();
     // Start is called before the first frame update
     void Awake()
     {
+        battleEntryScreen = GameObject.Find("BattleEntry").GetComponent<BattleEntryScript>();
         line = GameObject.Find("Path");
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         world = GameObject.Find("GameWorld").GetComponent<GameWorld>();
@@ -108,6 +111,18 @@ public class PlayerMoveable : MonoBehaviour
             {
                 Gizmos.DrawCube(shit, new Vector2(0.2f, 0.2f));
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Entity otherEntity = collision.gameObject.GetComponent<Entity>();
+        if (otherEntity != null)
+        {
+            BattleState state = new BattleState(boundEntity, otherEntity, gameManager);
+            battleEntryScreen.Open(transform.position, boundEntity.soldierAmount, otherEntity.soldierAmount, state);
+            gameManager.currentBattleState = state;
+            gameManager.openMenuLockActions(transform.position);
         }
     }
 }

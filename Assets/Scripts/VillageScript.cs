@@ -80,11 +80,19 @@ public class VillageScript : MonoBehaviour
     {
         if (receivingPatrols.Contains(collision.gameObject))
         {
-            needSupply = !needSupply;
-            collision.gameObject.GetComponent<Patrollable>().boundVillage.GetComponent<VillageScript>().RemoveFromSent(collision.gameObject);
+            if (collision.gameObject.GetComponent<Patrollable>().isEscaping)
+            {
+                receivingPatrols.Remove(collision.gameObject);
+                collision.gameObject.GetComponent<FovFadeable>().Dissapear();
+            }
+            else
+            {
+                needSupply = !needSupply;
+                collision.gameObject.GetComponent<Patrollable>().boundVillage.GetComponent<VillageScript>().RemoveFromSent(collision.gameObject);
 
-            RemoveFromReceiving(collision.gameObject);
-            collision.gameObject.GetComponent<FovFadeable>().Dissapear();
+                RemoveFromReceiving(collision.gameObject);
+                collision.gameObject.GetComponent<FovFadeable>().Dissapear();
+            }
         }
     }
 
