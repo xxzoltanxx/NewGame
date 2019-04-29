@@ -8,19 +8,28 @@ public class FOVTriggers : MonoBehaviour
     bool isEnemyInsideFOV = false;
     private bool oneIterTrigger = false;
     private GameWorld gameWorld = null;
+    private GameManager gameManager = null;
+    private Material copyMaterial = null;
     // Start is called before the first frame update
     private void Awake()
     {
         gameWorld = GameObject.Find("GameWorld").GetComponent<GameWorld>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Start()
     {
-        
+        Material material = GetComponent<MeshRenderer>().sharedMaterial;
+        copyMaterial = new Material(material);
+        GetComponent<MeshRenderer>().material = copyMaterial;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector3 playerPos = gameManager.player.transform.position;
+        float playerDistance = gameManager.player.GetComponent<Entity>().viewingDistance;
+        copyMaterial.SetVector("_PlayerPosition", playerPos);
+        copyMaterial.SetFloat("_Distance", playerDistance);
         transform.Rotate(new Vector3(0, 0, 1), Time.deltaTime * 15.0f);
         if (collision && collision.gameObject.GetComponent<Entity>().hiddenInPlainSight == true)
         {

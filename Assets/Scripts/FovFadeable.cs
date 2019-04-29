@@ -31,31 +31,11 @@ public class FovFadeable : MonoBehaviour
     private void Awake()
     {
         gameWorld = GameObject.Find("GameWorld").GetComponent<GameWorld>();
-        if (transform.childCount > 0)
-        {
-            if (transform.GetChild(0).tag == "enemyFOV")
-            {
-                FOVCircle = transform.GetChild(0).GetComponent<SpriteRenderer>();
-            }
-            else
-            {
-                FOVCircle = null;
-            }
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (FOVCircle && canShowFOV)
-        {
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 1.0f);
-        }
-        else
-        {
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 0.0f);
-        }
         if (!destroyOnFadeOut)
         {
             if (isInsideFOV && (!GetComponent<Entity>().hidden && !enemyEntity.hidden) && gameWorld.noForestPastThis(transform.position, enemyEntity.gameObject.transform.position))
@@ -141,7 +121,6 @@ public class FovFadeable : MonoBehaviour
             isInsideFOV = false;
             fadeFlag = 2;
             canShowFOV = false;
-            FOVCircle.color = new Color(FOVCircle.color.r, FOVCircle.color.g, FOVCircle.color.b, 0.0f);
         }
     }
 

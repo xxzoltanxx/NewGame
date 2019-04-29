@@ -27,6 +27,7 @@ public class NPCFOV : MonoBehaviour
         float distance = getFOWBoundsDistance();
         distance = Mathf.Lerp(distancePreviousFrame, distance, Time.deltaTime);
         childSpriteCircle.transform.localScale = new Vector2(distance * 2, distance * 2);
+        GetComponent<Entity>().viewingDistance = distance * 2.0f;
         distancePreviousFrame = distance;
     }
 

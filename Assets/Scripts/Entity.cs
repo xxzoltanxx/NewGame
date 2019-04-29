@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Entity : MonoBehaviour
 {
+    public float viewingDistance = 0.0f;
     public Abilities abilities;
     public Text soldierAmountText;
     public GameObject dissapearPrefab;

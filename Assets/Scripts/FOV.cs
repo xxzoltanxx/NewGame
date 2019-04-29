@@ -73,6 +73,7 @@ public class FOV : MonoBehaviour
         }
         float distance = holder[1].magnitude;
         GetComponent<CircleCollider2D>().radius = distance * 2;
+        transform.parent.gameObject.GetComponent<Entity>().viewingDistance = distance * 2;
         holder.CopyTo(oldPerimeterPoints, 0);
 
         Mesh mesh = GetComponent<MeshFilter>().mesh;
