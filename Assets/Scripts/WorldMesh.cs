@@ -5,12 +5,14 @@ using UnityEngine;
 public class TransformedSector
 {
     public Rect sector;
+    public GameObject village;
 }
 
 [RequireComponent(typeof(WorldGenerator))]
 [RequireComponent(typeof(WorldTextureAtlas))]
 public class WorldMesh : MonoBehaviour
 {
+    public GameObject radarPrefab;
     public Material material;
     public float baseMeshZLevel = 0;
     public float villageZLevel = -1.5f;
@@ -52,7 +54,7 @@ public class WorldMesh : MonoBehaviour
         generator.Construct();
         textureAtlas.Construct();
         pathGrid.CreateGrid();
-        worldAI.lazyInit(Resources.Load("Prefabs/enemy") as GameObject);
+        worldAI.lazyInit(Resources.Load("Prefabs/enemy") as GameObject, Resources.Load("Prefabs/scannerPrefab") as GameObject);
     }
 
     private void setHeightMap()
@@ -181,6 +183,16 @@ public class WorldMesh : MonoBehaviour
         gameManager.maxWidth = () => ((float)Screen.height / Screen.width) * totalSize.x * 0.5f;
     }
 
+    public TransformedSector sectorFromWorldPos(Vector3 pos)
+    {
+        foreach (TransformedSector sec in sectors)
+        {
+            if (sec.sector.Contains(new Vector2(pos.x, pos.y)))
+                return sec;
+        }
+        return sectors[Random.Range(0, sectors.Count)];
+    }
+
     private void AddVillageSprites()
     {
         var villages = parameters.parameters.villages;
@@ -200,6 +212,7 @@ public class WorldMesh : MonoBehaviour
 
             TransformedSector completeTransformed = new TransformedSector();
             completeTransformed.sector = transformedSector;
+            completeTransformed.village = village;
             village.GetComponent<VillageScript>().initFresh(completeTransformed, worldAI, villages[counter].name, initialSoldiersPerVillage, giveSupplyRequestToVillage);
             giveSupplyRequestToVillage = !giveSupplyRequestToVillage;
 

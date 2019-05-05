@@ -5,6 +5,7 @@ using UnityEngine;
 public class NotificationHandler : MonoBehaviour
 {
     public Sprite battleIcon;
+    public Sprite hunterIcon;
     public float notificationSpace = 100.0f;
     public float startNotificationY = 100.0f;
     public GameObject notificationPrefab;
@@ -21,6 +22,14 @@ public class NotificationHandler : MonoBehaviour
         
     }
 
+    public void AddHuntersDispatchedNotification()
+    {
+        System.Func<bool> func = () =>
+        {
+            return true;
+        };
+        AddNotification(hunterIcon, "Careful!", "Death squad dispatched!", func, null);
+    }
     public void AddBattleWonNotification(Sprite graphic)
     {
         System.Func<bool> func = () =>

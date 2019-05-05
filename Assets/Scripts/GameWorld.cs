@@ -28,7 +28,11 @@ public class GameWorld : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public TransformedSector sectorFromWorldPos(Vector3 worldPos)
+    {
+        return mesh.sectorFromWorldPos(worldPos);
     }
 
     public bool noGreenPastThis(Vector2 position, Vector2 endPosition)

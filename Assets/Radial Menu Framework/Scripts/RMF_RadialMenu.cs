@@ -98,6 +98,7 @@ public class RMF_RadialMenu : MonoBehaviour {
 
     public void close()
     {
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
         handler.menuShown = false;
         GetComponent<Animator>().SetTrigger("dissapear");
     }

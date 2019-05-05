@@ -9,6 +9,7 @@ public class Patrollable : MonoBehaviour
         Ongoing = 0,
         Finished = 1
     }
+    public bool isHunting = false;
     public bool isEscaping = false;
     public int fleeCount = 0;
     public GameObject boundVillage = null;
@@ -21,13 +22,21 @@ public class Patrollable : MonoBehaviour
     public Collider2D enterTrigger = null;
     public Vector2 lastSeenEnemyPosition = new Vector2(0, 0);
     public bool didintCheckLastPosition = true;
-
+    public float scanSize = 7.0f;
+    public float scanDuration = 5.0f;
     public Vector2 currentCheckpoint = new Vector2();
+    public bool lastStateAttack = false;
+    public GameObject scanner;
+    public BattleEntryScript battleEntryScreen;
 
+    public WorldAIDirector aiDirector;
     private PathGrid grid;
     private GameManager gameManager;
     private bool usingPathfinding = false;
     public float distanceToEnablePathfinding = 5.0f;
+    public bool scanning = false;
+    public float scanWaitTimer = 0;
+    PathNode currentTile = null;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -35,6 +44,8 @@ public class Patrollable : MonoBehaviour
         gameWorld = GameObject.Find("GameWorld").GetComponent<GameWorld>();
         boundEntity = GetComponent<Entity>();
         grid = GameObject.Find("GameWorld").GetComponent<PathGrid>();
+        aiDirector = gameManager.GetComponent<WorldAIDirector>();
+        battleEntryScreen = GameObject.Find("BattleEntry").GetComponent<BattleEntryScript>();
     }
     void Start()
     {
@@ -44,7 +55,21 @@ public class Patrollable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        scanWaitTimer += Time.deltaTime;
+    }
+
+    public void triggerScan()
+    {
+        scanning = true;
+        scanner = aiDirector.ScanSector(scanSize, transform.position, scanDuration, GetComponent<Entity>());
+        StartCoroutine(resetScan());
+    }
+
+    IEnumerator resetScan()
+    {
+        yield return new WaitForSeconds(scanDuration);
+        scanning = false;
+        scanner = null;
     }
 
     public void lazyInit(Vector2 checkpoint, GameObject boundVillage, GameObject destinationVillage)
@@ -90,8 +115,41 @@ public class Patrollable : MonoBehaviour
         currentCheckpoint = checkpoint;
     }
 
+    public void OnDestroy()
+    {
+        if(currentTile != null)
+        {
+            currentTile.entitiesCurrentlyOnTile.Remove(gameObject);
+        }
+    }
+
     public PatrolStatus TickMovement(float dt)
     {
+        Vector2 currentPos = transform.position;
+        PathNode node = grid.NodeFromWorldPoint(currentPos);
+        if (node != currentTile)
+        {
+            node.entitiesCurrentlyOnTile.Add(gameObject);
+            if (node.entitiesCurrentlyOnTile.Count > 1)
+            {
+                foreach (GameObject obj in node.entitiesCurrentlyOnTile)
+                {
+                    if (obj.GetComponent<Entity>().isPlayer && !node.battling)
+                    {
+                        BattleState state = new BattleState(obj.GetComponent<Entity>(), boundEntity, gameManager, node);
+                        battleEntryScreen.Open(transform.position, boundEntity.soldierAmount, obj.GetComponent<Entity>().soldierAmount, state);
+                        gameManager.currentBattleState = state;
+                        gameManager.openMenuLockActions(transform.position);
+                        node.battling = true;
+                    }
+                }
+            }
+            if (currentTile != null)
+            {
+                currentTile.entitiesCurrentlyOnTile.Remove(gameObject);
+            }
+            currentTile = node;
+        }
         if (!usingPathfinding)
         {
             Vector2 sameZcheckpoint = currentCheckpoint;

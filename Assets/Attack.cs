@@ -22,27 +22,44 @@ public class Attack : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         lastSpot += Time.deltaTime;
-        if (patrollableComponent.enterTrigger && visitingLastPosition && lastSpot < spotThreshold)
+        Entity boundEntity = patrollableComponent.GetComponent<Entity>();
+        if (boundEntity.boundScanner && boundEntity.boundScanner.enemyEntityScanned && !boundEntity.boundScanner.enemyEntityScanned.hiddenInPlainSight)
+        {
+            patrollableComponent.lastSeenEnemyPosition = boundEntity.boundScanner.lastEnemyPosition;
+            patrollableComponent.didintCheckLastPosition = true;
+            patrollableComponent.reset(boundEntity.boundScanner.enemyEntityScanned.transform.position);
+            patrollableComponent.TickMovement(Time.deltaTime);
+            patrollableComponent.SetToNormal();
+        }
+        else if (patrollableComponent.enterTrigger && visitingLastPosition && lastSpot < spotThreshold)
         {
             lastSpot = 0.0f;
             visitingLastPosition = false;
             timer = 0;
             animator.SetTrigger("spot");
         }
-        if (patrollableComponent.enterTrigger)
+        else if (patrollableComponent.enterTrigger)
         {
             patrollableComponent.didintCheckLastPosition = true;
             patrollableComponent.reset(patrollableComponent.enterTrigger.gameObject.transform.position);
             patrollableComponent.TickMovement(Time.deltaTime);
             patrollableComponent.SetToNormal();
         }
-        else if (patrollableComponent.didintCheckLastPosition)
+        else if (patrollableComponent.didintCheckLastPosition && !patrollableComponent.isHunting)
         {
             patrollableComponent.didintCheckLastPosition = false;
             visitingLastPosition = true;
             timer = 0;
             patrollableComponent.reset(patrollableComponent.lastSeenEnemyPosition);
             patrollableComponent.SetToScout();
+        }
+        else if (patrollableComponent.didintCheckLastPosition && patrollableComponent.isHunting)
+        {
+            timer = 0;
+            visitingLastPosition = true;
+            patrollableComponent.reset(patrollableComponent.lastSeenEnemyPosition);
+            patrollableComponent.lastStateAttack = true;
+            animator.SetTrigger("hunt");
         }
         else if (visitingLastPosition)
         {

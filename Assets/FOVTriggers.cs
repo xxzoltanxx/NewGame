@@ -43,7 +43,7 @@ public class FOVTriggers : MonoBehaviour
             transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
             oneIterTrigger = true;
         }
-        else if (isEnemyInsideFOV && (!transform.parent.gameObject.GetComponent<Entity>().hidden && collision.gameObject.GetComponent<Entity>().hidden))
+        else if (isEnemyInsideFOV && (!transform.parent.gameObject.GetComponent<Entity>().hidden && collision.gameObject.GetComponent<Entity>().hidden) && !collision.gameObject.GetComponent<Entity>().beingScanned)
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = null;
             if (oneIterTrigger)
@@ -61,6 +61,13 @@ public class FOVTriggers : MonoBehaviour
             oneIterTrigger = true;
         }
         else if (isEnemyInsideFOV && (transform.parent.gameObject.GetComponent<Entity>().hidden && !collision.gameObject.GetComponent<Entity>().hidden) && gameWorld.noForestPastThisForest(transform.parent.gameObject.transform.position, collision.gameObject.transform.position)) //and no trees past this trees
+        {
+            transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = collision;
+            transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;
+            transform.parent.gameObject.GetComponent<Patrollable>().didintCheckLastPosition = true;
+            oneIterTrigger = true;
+        }
+        else if (isEnemyInsideFOV && collision.gameObject.GetComponent<Entity>().beingScanned)
         {
             transform.parent.gameObject.GetComponent<Patrollable>().enterTrigger = collision;
             transform.parent.gameObject.GetComponent<Patrollable>().lastSeenEnemyPosition = collision.gameObject.transform.position;

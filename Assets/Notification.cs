@@ -20,7 +20,10 @@ public class Notification : MonoBehaviour
         transform.GetChild(0).GetComponent<Image>().sprite = notificationIcon;
         transform.GetChild(1).GetComponent<Text>().text = notificationName;
         transform.GetChild(2).GetComponent<Text>().text = notificationBody;
-        transform.GetChild(3).GetComponent<Image>().sprite = notificationGraphic;
+        if (notificationGraphic != null)
+            transform.GetChild(3).GetComponent<Image>().sprite = notificationGraphic;
+        else
+            transform.GetChild(3).GetComponent<Image>().color = new Color(0, 0, 0, 0);
         this.handler = handler;
         this.editFunc = editFunc;
     }

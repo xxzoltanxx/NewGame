@@ -80,7 +80,10 @@ public class VillageScript : MonoBehaviour
     {
         if (receivingPatrols.Contains(collision.gameObject))
         {
-            if (collision.gameObject.GetComponent<Patrollable>().isEscaping)
+            if (collision.gameObject.GetComponent<Patrollable>().isHunting)
+            {
+            }
+            else if (collision.gameObject.GetComponent<Patrollable>().isEscaping)
             {
                 receivingPatrols.Remove(collision.gameObject);
                 collision.gameObject.GetComponent<FovFadeable>().Dissapear();

@@ -43,11 +43,13 @@ public class WorldPlayerActionHandler : MonoBehaviour
             var menu = radialMenu.GetComponent<RMF_RadialMenu>();
             radialMenu.GetComponent<RMF_RadialMenu>().Init(playerAbilities.learnedWorldAbilities, this);
             radialMenu.GetComponent<Animator>().SetTrigger("show");
+            radialMenu.GetComponent<CanvasGroup>().blocksRaycasts = true;
             menuShown = true;
         }
         else
         {
             menuShown = false;
+            radialMenu.GetComponent<CanvasGroup>().blocksRaycasts = false;
             radialMenu.GetComponent<Animator>().SetTrigger("dissapear");
         }
     }

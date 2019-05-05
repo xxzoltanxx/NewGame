@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Entity : MonoBehaviour
 {
+    public bool beingScanned = false;
     public float viewingDistance = 0.0f;
     public Abilities abilities;
     public Text soldierAmountText;
@@ -21,6 +22,7 @@ public class Entity : MonoBehaviour
     public Dictionary<GameWorld.Terrain, float> terrainModifiers;
     public Dictionary<GameWorld.Terrain, float> fovDistance;
     public Dictionary<GameWorld.Terrain, int> pathfindingWeights;
+    public scannerScript boundScanner = null;
     public float nightFOVModifier = 0.7f;
     GameWorld.Terrain currentTile;
     public float ambushValue;

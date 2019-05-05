@@ -49,12 +49,21 @@ public class GameManager : MonoBehaviour
         if (currentBattleState.winningEntity.isPlayer)
         {
             notificationHandler.AddBattleWonNotification(playerFlag);
+            StartCoroutine(spawnHunters(currentBattleState.winningEntity.transform.position));
         }
         else
         {
             notificationHandler.AddBattleLostNotification(enemyFlag);
         }
     }
+
+    IEnumerator spawnHunters(Vector2 position)
+    {
+        yield return new WaitForSeconds(2.0f);
+        GetComponent<WorldAIDirector>().DispatchHunters(position);
+        notificationHandler.AddHuntersDispatchedNotification();
+    }
+
     private void Start()
     {
         player = GameObject.Find("player");
@@ -88,7 +97,7 @@ public class GameManager : MonoBehaviour
     }
     void HandleManualMovement()
     {
-        float moveAmount = 15.0f;
+        float moveAmount = 10.0f;
         float edgeSize = 10.0f;
         cameraPos.x = Camera.main.transform.position.x;
         cameraPos.y = Camera.main.transform.position.y;
@@ -133,18 +142,20 @@ public class BattleState
     public Entity playerEntity;
     public Entity enemyEntity;
     public Entity winningEntity;
+    public PathNode node;
     public GameManager gamemanager;
-    public BattleState(Entity playerEntity, Entity enemyEntity, GameManager manager)
+    public BattleState(Entity playerEntity, Entity enemyEntity, GameManager manager, PathNode node)
     {
         this.playerEntity = playerEntity;
         this.enemyEntity = enemyEntity;
+        this.node = node;
         gamemanager = manager;
     }
     public void ResolveBattle()
     {
         float winChance = (float)playerEntity.soldierAmount / (playerEntity.soldierAmount + enemyEntity.soldierAmount);
         float roll = UnityEngine.Random.Range(0, 1.0f);
-        if (roll >= winChance)
+        if (roll <= winChance)
         {
             enemyEntity.SetSoldiers(enemyEntity.soldierAmount - 2);
             enemyEntity.gameObject.GetComponent<Animator>().SetTrigger("flee");
@@ -156,6 +167,7 @@ public class BattleState
             enemyEntity.gameObject.GetComponent<Patrollable>().SetToAfterWin();
             winningEntity = enemyEntity;
         }
+        node.battling = false;
         gamemanager.postBattleActions();
     }
 }

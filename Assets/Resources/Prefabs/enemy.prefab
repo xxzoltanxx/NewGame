@@ -107,7 +107,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2214358922883709552}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6390576431613449236}
@@ -270,9 +270,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0010428578, y: 0}
+  m_Offset: {x: 0.009553552, y: 0}
   serializedVersion: 2
-  m_Radius: 0.13826196
+  m_Radius: 0.44751275
 --- !u!212 &4213750353565013475
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -397,6 +397,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a5b0941cf5e4a54d936b6ca132e5c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beingScanned: 0
+  viewingDistance: 0
   abilities: {fileID: 0}
   soldierAmountText: {fileID: 0}
   dissapearPrefab: {fileID: 0}
@@ -407,6 +409,7 @@ MonoBehaviour:
   isPlayer: 0
   hiddenInPlainSight: 0
   reappear: 0
+  boundScanner: {fileID: 0}
   nightFOVModifier: 0.7
   ambushValue: 0
 --- !u!114 &4213750353565013477
@@ -421,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 986347526703d5e479bec01cb946f4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHunting: 0
   isEscaping: 0
   fleeCount: 0
   boundVillage: {fileID: 0}
@@ -429,8 +433,15 @@ MonoBehaviour:
   enterTrigger: {fileID: 0}
   lastSeenEnemyPosition: {x: 0, y: 0}
   didintCheckLastPosition: 1
+  scanSize: 7
+  scanDuration: 25
   currentCheckpoint: {x: 0, y: 0}
+  lastStateAttack: 0
+  scanner: {fileID: 0}
+  aiDirector: {fileID: 0}
   distanceToEnablePathfinding: 5
+  scanning: 0
+  scanWaitTimer: 0
 --- !u!114 &4213750353565013478
 MonoBehaviour:
   m_ObjectHideFlags: 0
