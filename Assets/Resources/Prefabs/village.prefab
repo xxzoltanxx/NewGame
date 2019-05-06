@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 214421599}
   - component: {fileID: 214421598}
   - component: {fileID: 8134397436944867740}
+  - component: {fileID: 2438962105422904486}
   m_Layer: 0
   m_Name: VillageInfo
   m_TagString: Untagged
@@ -191,6 +192,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af20e6b3c8a88984390a7ef317a45e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &2438962105422904486
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214421597}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1553701420
 GameObject:
   m_ObjectHideFlags: 0

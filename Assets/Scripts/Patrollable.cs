@@ -171,11 +171,11 @@ public class Patrollable : MonoBehaviour
                 GameWorld.Terrain currentTerrain = grid.NodeFromWorldPoint(transform.position).weight;
                 if (currentTerrain == GameWorld.Terrain.Forest)
                 {
-                    GetComponent<Entity>().hidden = true;
+                    GetComponent<Entity>().SetHidden(true);
                 }
                 else
                 {
-                    GetComponent<Entity>().hidden = false;
+                    GetComponent<Entity>().SetHidden(false);
                 }
                 float movementModifier = boundEntity.terrainModifiers[currentTerrain] * boundEntity.pace * boundEntity.speed;
 
@@ -204,11 +204,11 @@ public class Patrollable : MonoBehaviour
                 GameWorld.Terrain currentTerrain = grid.NodeFromWorldPoint(transform.position).weight;
                 if (currentTerrain == GameWorld.Terrain.Forest)
                 {
-                    GetComponent<Entity>().hidden = true;
+                    GetComponent<Entity>().SetHidden(true);
                 }
                 else
                 {
-                    GetComponent<Entity>().hidden = false;
+                    GetComponent<Entity>().SetHidden(false);
                 }
                 float movementModifier = boundEntity.terrainModifiers[currentTerrain] * boundEntity.pace * boundEntity.speed;
 

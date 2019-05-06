@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 2503686209194186511}
   - component: {fileID: 1925913616109535812}
   - component: {fileID: 4703071563507961699}
+  - component: {fileID: 1086378708419574378}
   m_Layer: 0
   m_Name: UnitInfo
   m_TagString: Untagged
@@ -192,6 +193,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5bdcb7f22ca0d4e848f625b51817a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &1086378708419574378
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214358922883709552}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4213750353565013501
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,9 +283,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.009553552, y: 0}
+  m_Offset: {x: 0.0043477714, y: 0}
   serializedVersion: 2
-  m_Radius: 0.44751275
+  m_Radius: 0.32778075
 --- !u!212 &4213750353565013475
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -310,15 +323,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 16a344ca23dde0347b31f895e5afdec3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6b6e04b5f35b5ca489f8bd4c905b4b95, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.03, y: 1.17}
+  m_Size: {x: 0.72, y: 0.71}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4213750353565013502
@@ -411,6 +424,7 @@ MonoBehaviour:
   reappear: 0
   boundScanner: {fileID: 0}
   nightFOVModifier: 0.7
+  hiddenVal: 0
   ambushValue: 0
 --- !u!114 &4213750353565013477
 MonoBehaviour:
@@ -438,6 +452,7 @@ MonoBehaviour:
   currentCheckpoint: {x: 0, y: 0}
   lastStateAttack: 0
   scanner: {fileID: 0}
+  battleEntryScreen: {fileID: 0}
   aiDirector: {fileID: 0}
   distanceToEnablePathfinding: 5
   scanning: 0

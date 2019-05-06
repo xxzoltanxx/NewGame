@@ -24,6 +24,7 @@ public class Entity : MonoBehaviour
     public Dictionary<GameWorld.Terrain, int> pathfindingWeights;
     public scannerScript boundScanner = null;
     public float nightFOVModifier = 0.7f;
+    public float hiddenVal = 0.0f;
     GameWorld.Terrain currentTile;
     public float ambushValue;
 
@@ -43,6 +44,18 @@ public class Entity : MonoBehaviour
 
     private void Update()
     {
+        if (hidden && hiddenVal != 1.0f)
+        {
+            hiddenVal += Time.deltaTime;
+            hiddenVal = Mathf.Clamp01(hiddenVal);
+            GetComponent<SpriteRenderer>().material.SetFloat("_Hidden", hiddenVal);
+        }
+        else if (!hidden && hiddenVal != 0)
+        {
+            hiddenVal -= Time.deltaTime;
+            hiddenVal = Mathf.Clamp01(hiddenVal);
+            GetComponent<SpriteRenderer>().material.SetFloat("_Hidden", hiddenVal);
+        }
         if (reappear)
         {
             Color color = GetComponent<SpriteRenderer>().color;
@@ -94,5 +107,10 @@ public class Entity : MonoBehaviour
     {
         roster = soldiers;
         soldierAmountText.text = roster.Count.ToString();
+    }
+
+    public void SetHidden(bool val)
+    {
+        hidden = val;
     }
 }

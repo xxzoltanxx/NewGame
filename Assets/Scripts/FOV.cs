@@ -104,11 +104,11 @@ public class FOV : MonoBehaviour
         GameWorld.Terrain currentTerrain = gameWorld.getTerrainAtPoint(currentPosition);
         if (currentTerrain == GameWorld.Terrain.Forest)
         {
-            boundEntity.hidden = true;
+            boundEntity.SetHidden(true);
         }
         else
         {
-            boundEntity.hidden = false;
+            boundEntity.SetHidden(false);
         }
         float distance = boundEntity.fovDistance[currentTerrain];
         if (isNight)
